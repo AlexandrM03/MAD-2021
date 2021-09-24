@@ -1,10 +1,10 @@
 0001| tfi(ti,ti){dti;
-0002| i=iiivv  ;
+0002| i=iv(ivi);
 0003| ri;
 0004| };
 0005| tfi(ti,ti){dti;
 0006| dtfi(ti,ti,ti);
-0007| i=i(i,l,l)iv;
+0007| i=i(i,l,l)vi;
 0008| ri;
 0009| };
 0010| m{dti;
@@ -13,7 +13,7 @@
 0013| dti;
 0014| dti;
 0015| dti;
-0016| dti(ti);
+0016| ti(ti);
 0017| i=l;
 0018| i=l;
 0019| i=l;

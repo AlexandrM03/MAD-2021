@@ -48,6 +48,9 @@
     <ClCompile Include="Out.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Polish.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Out.h">
@@ -84,6 +87,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LT.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Polish.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

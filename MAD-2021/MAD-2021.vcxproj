@@ -30,6 +30,7 @@
     <ClCompile Include="LT.cpp" />
     <ClCompile Include="Out.cpp" />
     <ClCompile Include="Parm.cpp" />
+    <ClCompile Include="Polish.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Div.h" />
@@ -43,6 +44,7 @@
     <ClInclude Include="LT.h" />
     <ClInclude Include="Out.h" />
     <ClInclude Include="Parm.h" />
+    <ClInclude Include="Polish.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

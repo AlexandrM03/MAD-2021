@@ -1,11 +1,12 @@
-﻿#include"stdafx.h"
-#include"Error.h"
-#include"Parm.h"
-#include"In.h"
-#include"Log.h"
-#include"Out.h"
-#include"FST.h"
-#include"LexAnalisys.h"
+﻿#include "stdafx.h"
+#include "Error.h"
+#include "Parm.h"
+#include "In.h"
+#include "Log.h"
+#include "Out.h"
+#include "FST.h"
+#include "Polish.h"
+#include "LexAnalisys.h"
 
 int wmain(int argc, wchar_t* argv[]) {
     setlocale(LC_ALL, "RUS");
@@ -39,8 +40,9 @@ int wmain(int argc, wchar_t* argv[]) {
         In::IN in = In::getin(parm);
         Log::WriteIn(log, in);
         Lex::LEX lex = Lex::LexAnaliz(log, in);
-        Log::WriteLexTableLog(lex.lextable, log);
         IT::ShowTable(lex.idtable);
+        Polish::startPolish(lex);
+        Log::WriteLexTableLog(lex.lextable, log);
         LT::ShowTable(lex.lextable, parm);
         Log::Close(log);
     }
