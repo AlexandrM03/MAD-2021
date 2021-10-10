@@ -51,6 +51,12 @@
     <ClCompile Include="Polish.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GRB.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MFST.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Out.h">
@@ -90,6 +96,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Polish.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GRB.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Rule.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MFST.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

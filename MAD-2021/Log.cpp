@@ -93,8 +93,23 @@ namespace Log {
 			<< " | " << "Строка" << std::setw(21) << ' ' << std::left << " | " << "Индекс в ТИ" << std::endl;
 		*log.stream << std::setfill('-') << std::setw(90) << '-' << std::endl;
 		for (i = 0; i < lextable.size; i++) {
+			char op = ' ';
+			switch (lextable.table[i].op) {
+			case LT::operations::OPLUS:
+				op = '+';
+				break;
+			case LT::operations::OMINUS:
+				op = '-';
+				break;
+			case LT::operations::OMUL:
+				op = '*';
+				break;
+			case LT::operations::ODIV:
+				op = '/';
+				break;
+			}
 			*log.stream << std::setfill('0') << std::setw(4) << std::right << i << " | " << std::setfill(' ') 
-				<< std::setw(24) << std::left << lextable.table[i].lexema << "    | " << std::setw(24) << std::left
+				<< std::setw(24) << std::left << lextable.table[i].lexema << op << "   | " << std::setw(24) << std::left
 				<< lextable.table[i].line << "    | ";
 			if (lextable.table[i].idxTI == LT_TI_NULLIDX)
 				*log.stream << "-" << std::endl;

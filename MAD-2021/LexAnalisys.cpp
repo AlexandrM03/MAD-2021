@@ -130,12 +130,7 @@ namespace Lex {
 				}
 				else {
 					int idx = IT::IsId(idtable, word[i]);
-					/*if (idx == TI_NULLIDX && findDeclaration == true && findType == false) {
-						throw ERROR_THROW_IN(123, line, position);
-					}*/
 					if (idx != TI_NULLIDX) {
-						/*if (findDeclaration == true)
-							throw ERROR_THROW_IN(122, line, position);*/
 						LT::Entry entryLT = WriteEntry(entryLT, LEX_ID, idx, line);
 						LT::Add(lextable, entryLT);
 						findFunc = false;
@@ -251,11 +246,21 @@ namespace Lex {
 			if (FST::execute(fstOperator)) {
 				LT::Entry entryLT = WriteEntry(entryLT, LEX_OPERATOR, indexID++, line);
 				switch (word[i][0]) {
-				case PLUS: case MINUS:
+				case PLUS:
 					entryLT.priority = 2;
+					entryLT.op = LT::operations::OPLUS;
 					break;
-				case DIRSLASH: case STAR:
+				case MINUS:
+					entryLT.priority = 2;
+					entryLT.op = LT::operations::OMINUS;
+					break;
+				case DIRSLASH: 
 					entryLT.priority = 3;
+					entryLT.op = LT::operations::ODIV;
+					break;
+				case STAR:
+					entryLT.priority = 3;
+					entryLT.op = LT::operations::OMUL;
 					break;
 				}
 				LT::Add(lextable, entryLT);

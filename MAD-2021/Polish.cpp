@@ -7,16 +7,8 @@ namespace Polish {
 
 		LT::Entry temp;
 		temp.idxTI = -1;
-		temp.lexema = ' ';
+		temp.lexema = '#';
 		temp.line = lex.lextable.table[i].line;
-
-		LT::Entry func;
-		func.idxTI = -1;
-		func.lexema = '@';
-		func.line = lex.lextable.table[i].line;
-
-		LT::Entry num;
-		num.lexema = ' ';
 
 		int countLex = 0;
 		int posLex = i;
@@ -26,9 +18,6 @@ namespace Polish {
 		for (i; lex.lextable.table[i].lexema != LEX_SEMICOLON; i++, countLex++) {
 			switch (lex.lextable.table[i].lexema) {
 			case LEX_ID:
-				queue.push(lex.lextable.table[i]);
-				continue;
-
 			case LEX_LITERAL:
 				queue.push(lex.lextable.table[i]);
 				continue;
@@ -36,17 +25,14 @@ namespace Polish {
 			case LEX_COMMA:
 				if (findFunc)
 					stack.push(lex.lextable.table[i]);
-				// continue;
+				continue;
 
 			case LEX_LEFTTHESIS:
 				if (lex.idtable.table[lex.lextable.table[i - 1].idxTI].idtype == IT::F) {
 					findFunc = true;
-					num.lexema = (char)lex.idtable.table[lex.lextable.table[i - 1].idxTI].countOfPar + '0';
 				}
-				if (findFunc)
-					queue.push(lex.lextable.table[i]);
-				else
-					stack.push(lex.lextable.table[i]);
+
+				findFunc ? queue.push(lex.lextable.table[i]) : stack.push(lex.lextable.table[i]);
 				continue;
 
 			case LEX_RIGHTTHESIS:

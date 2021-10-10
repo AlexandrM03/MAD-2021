@@ -27,11 +27,20 @@
 #define LEX_EQUAL		'='
 
 namespace LT {
+	enum operations {
+		ONOT = -1,
+		OPLUS,
+		OMINUS,
+		OMUL,
+		ODIV
+	};
+
 	struct Entry {
 		char lexema;
 		int line;
 		int idxTI;
 		int priority;
+		operations op;
 	};
 
 	struct LexTable {
