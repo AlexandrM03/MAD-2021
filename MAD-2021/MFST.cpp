@@ -63,7 +63,7 @@ namespace MFST {
 						MFST_TRACE2
 					}
 					else {
-						MFST_TRACE4("TNS_NORULECHAIN/NS_NORULE")
+						MFST_TRACE4("NS_NRCHAIN/NS_NR")
 							saveddiagnosis(NS_NORULECHAIN); rc = resetstate() ? NS_NORULECHAIN : NS_NORULE;
 					}
 				}

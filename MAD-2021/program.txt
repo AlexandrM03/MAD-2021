@@ -22,7 +22,7 @@ main
  declare string sa;
  declare string sb;
  declare string sc;
- declare integer strlen(string p);
+ declare integer function strlen(string p);
  x = 1;
  y = 5;
  sa = '1234567890';
