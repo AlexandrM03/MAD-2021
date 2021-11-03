@@ -111,7 +111,14 @@ namespace Lex {
 
 			FST::FST fstMain(word[i], FST_MAIN);
 			if (FST::execute(fstMain)) {
-				LT::Entry entryLT = WriteEntry(entryLT, LEX_MAIN, LT_TI_NULLIDX, line);
+				strcpy(entryIT.id, word[i]);
+				entryIT.idxFirstLE = indexLex;
+				entryIT.idtype = IT::F;
+				entryIT.iddatatype = IT::INT;
+				IT::Add(idtable, entryIT);
+				entryIT = {};
+
+				LT::Entry entryLT = WriteEntry(entryLT, LEX_MAIN, IT::IsId(idtable, word[i]), line);
 				LT::Add(lextable, entryLT);
 				strcpy(oldprefix, prefix);
 				strcpy(prefix, word[i]);
@@ -244,7 +251,14 @@ namespace Lex {
 
 			FST::FST fstOperator(word[i], FST_OPERATOR);
 			if (FST::execute(fstOperator)) {
-				LT::Entry entryLT = WriteEntry(entryLT, LEX_OPERATOR, indexID++, line);
+				strcpy(entryIT.id, word[i]);
+				entryIT.idxFirstLE = indexLex;
+				entryIT.idtype = IT::OP;
+				if (IT::IsId(idtable, word[i]) == TI_NULLIDX)
+					IT::Add(idtable, entryIT);
+				entryIT = { };
+
+				LT::Entry entryLT = WriteEntry(entryLT, LEX_OPERATOR, IT::IsId(idtable, word[i]), line);
 				switch (word[i][0]) {
 				case PLUS:
 					entryLT.priority = 2;
@@ -264,10 +278,6 @@ namespace Lex {
 					break;
 				}
 				LT::Add(lextable, entryLT);
-				strcpy(entryIT.id, word[i]);
-				entryIT.idxFirstLE = indexLex;
-				entryIT.idtype = IT::OP;
-				IT::Add(idtable, entryIT);
 				continue;
 			}
 

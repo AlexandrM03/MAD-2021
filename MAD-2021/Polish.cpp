@@ -10,8 +10,15 @@ namespace Polish {
 		temp.lexema = '#';
 		temp.line = lex.lextable.table[i].line;
 
+		LT::Entry func;
+		func.idxTI = LT_TI_NULLIDX;
+		func.lexema = '@';
+		func.line = lex.lextable.table[i].line;
+
 		int countLex = 0;
+		int countParm = 1;
 		int posLex = i;
+		char* buf = new char[i];
 
 		bool findFunc = false;
 
@@ -19,33 +26,40 @@ namespace Polish {
 			switch (lex.lextable.table[i].lexema) {
 			case LEX_ID:
 			case LEX_LITERAL:
-				queue.push(lex.lextable.table[i]);
+				if (lex.idtable.table[lex.lextable.table[i].idxTI].idtype == IT::F)
+					findFunc = true;
+				else
+					queue.push(lex.lextable.table[i]);
 				continue;
 
 			case LEX_COMMA:
-				if (findFunc)
-					stack.push(lex.lextable.table[i]);
+				countParm++;
 				continue;
 
 			case LEX_LEFTTHESIS:
-				if (lex.idtable.table[lex.lextable.table[i - 1].idxTI].idtype == IT::F) {
-					findFunc = true;
-				}
-
-				findFunc ? queue.push(lex.lextable.table[i]) : stack.push(lex.lextable.table[i]);
+				stack.push(lex.lextable.table[i]);
 				continue;
 
 			case LEX_RIGHTTHESIS:
-				if (findFunc)
-					queue.push(lex.lextable.table[i]);
-				else {
-					while (stack.top().lexema != LEX_LEFTTHESIS) {
-						queue.push(stack.top());
-						stack.pop();
-						if (stack.empty())
-							return false;
-					}
+				while (stack.top().lexema != LEX_LEFTTHESIS) {
+					queue.push(stack.top());
 					stack.pop();
+					if (stack.empty())
+						return false;
+				}
+
+				if (!findFunc)
+					stack.pop();
+				else {
+					lex.lextable.table[i] = func;
+					queue.push(lex.lextable.table[i]);
+					_itoa_s(countParm, buf, 2, 10);
+					stack.top().lexema = buf[0];
+					stack.top().idxTI = func.idxTI;
+					stack.top().line = func.line;
+					queue.push(stack.top());
+					stack.pop();
+					findFunc = false;
 				}
 				continue;
 

@@ -25,10 +25,10 @@ int wmain(int argc, wchar_t* argv[]) {
         Log::WriteIn(log, in);
         Lex::LEX lex = Lex::LexAnaliz(log, in);
         IT::ShowTable(lex.idtable);
-        // Polish::startPolish(lex);
+        Polish::startPolish(lex);
         Log::WriteLexTableLog(lex.lextable, log);
         LT::ShowTable(lex.lextable, parm);
-        MFST_TRACE_START
+        /*MFST_TRACE_START
         unsigned int start_time = clock();
         MFST::Mfst mfst(lex.lextable, GRB::getGreibach());
         mfst.start();
@@ -36,7 +36,7 @@ int wmain(int argc, wchar_t* argv[]) {
         unsigned int search_time = end_time - start_time;
         std::cout << search_time << std::endl;
         mfst.savededucation();
-        mfst.printrules();
+        mfst.printrules();*/
         Log::Close(log);
     }
     catch (Error::ERROR e) {

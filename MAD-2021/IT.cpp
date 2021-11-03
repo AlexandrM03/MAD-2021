@@ -44,11 +44,6 @@ namespace IT {
 		cout << setw(87) << '-' << endl;
 
 		for (i = 0, j = 0; i < idtable.size; i++, j++) {
-			if (idtable.table[i].idtype == OP) {
-				numberOP++;
-				j--;
-				continue;
-			}
 			cout << setfill('0') << setw(4) << right << j << " | ";
 			cout << setfill(' ') << setw(13) << left << idtable.table[i].id << " | ";
 
@@ -90,7 +85,7 @@ namespace IT {
 		}
 
 		cout << setfill('-') << setw(87) << "-" << endl;
-		cout << "Количество идентификаторов: " << i - numberOP << endl;
+		cout << "Количество идентификаторов: " << i << endl;
 		cout << setw(87) << "-" << endl;
 	}
 }
