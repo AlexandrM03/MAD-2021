@@ -5,35 +5,35 @@ namespace Polish {
 		std::stack<LT::Entry> stack;
 		std::queue<LT::Entry> queue;
 
-		LT::Entry temp;
-		temp.idxTI = -1;
-		temp.lexema = '#';
-		temp.line = lex.lextable.table[i].line;
+		LT::Entry aggregate_symbol;
+		aggregate_symbol.idxTI = -1;
+		aggregate_symbol.lexema = '#';
+		aggregate_symbol.line = lex.lextable.table[i].line;
 
-		LT::Entry func;
-		func.idxTI = LT_TI_NULLIDX;
-		func.lexema = '@';
-		func.line = lex.lextable.table[i].line;
+		LT::Entry function_symbol;
+		function_symbol.idxTI = LT_TI_NULLIDX;
+		function_symbol.lexema = '@';
+		function_symbol.line = lex.lextable.table[i].line;
 
-		int countLex = 0;
-		int countParm = 1;
-		int posLex = i;
+		int lexem_counter = 0;
+		int parm_counter = 1;
+		int lexem_position = i;
 		char* buf = new char[i];
 
-		bool findFunc = false;
+		bool is_function = false;
 
-		for (i; lex.lextable.table[i].lexema != LEX_SEMICOLON; i++, countLex++) {
+		for (i; lex.lextable.table[i].lexema != LEX_SEMICOLON; i++, lexem_counter++) {
 			switch (lex.lextable.table[i].lexema) {
 			case LEX_ID:
 			case LEX_LITERAL:
 				if (lex.idtable.table[lex.lextable.table[i].idxTI].idtype == IT::F)
-					findFunc = true;
+					is_function = true;
 				else
 					queue.push(lex.lextable.table[i]);
 				continue;
 
 			case LEX_COMMA:
-				countParm++;
+				parm_counter++;
 				continue;
 
 			case LEX_LEFTTHESIS:
@@ -48,18 +48,18 @@ namespace Polish {
 						return false;
 				}
 
-				if (!findFunc)
+				if (!is_function)
 					stack.pop();
 				else {
-					lex.lextable.table[i] = func;
+					lex.lextable.table[i] = function_symbol;
 					queue.push(lex.lextable.table[i]);
-					_itoa_s(countParm, buf, 2, 10);
+					_itoa_s(parm_counter, buf, 2, 10);
 					stack.top().lexema = buf[0];
-					stack.top().idxTI = func.idxTI;
-					stack.top().line = func.line;
+					stack.top().idxTI = function_symbol.idxTI;
+					stack.top().line = function_symbol.line;
 					queue.push(stack.top());
 					stack.pop();
-					findFunc = false;
+					is_function = false;
 				}
 				continue;
 
@@ -81,18 +81,18 @@ namespace Polish {
 			stack.pop();
 		}
 
-		while (countLex != 0) {
+		while (lexem_counter != 0) {
 			if (!queue.empty()) {
-				lex.lextable.table[posLex++] = queue.front();
+				lex.lextable.table[lexem_position++] = queue.front();
 				queue.pop();
 			}
 			else
-				lex.lextable.table[posLex++] = temp;
+				lex.lextable.table[lexem_position++] = aggregate_symbol;
 
-			countLex--;
+			lexem_counter--;
 		}
 
-		for (int i = 0; i < posLex; i++) {
+		for (int i = 0; i < lexem_position; i++) {
 			if (lex.lextable.table[i].lexema == LEX_OPERATOR || lex.lextable.table[i].lexema == LEX_LITERAL)
 				lex.idtable.table[lex.lextable.table[i].idxTI].idxFirstLE = i;
 		}
