@@ -12,4 +12,5 @@ namespace Lex {
 	};
 
 	LEX LexAnaliz(Log::LOG log, In::IN in);
+	void Synchronization(Lex::LEX& lex);
 }

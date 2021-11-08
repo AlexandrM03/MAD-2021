@@ -14,9 +14,10 @@ namespace Polish {
 		function_symbol.idxTI = LT_TI_NULLIDX;
 		function_symbol.lexema = '@';
 		function_symbol.line = lex.lextable.table[i].line;
+		int idx;
 
 		int lexem_counter = 0;
-		int parm_counter = 1;
+		int parm_counter = 0;
 		int lexem_position = i;
 		char* buf = new char[i];
 
@@ -26,14 +27,15 @@ namespace Polish {
 			switch (lex.lextable.table[i].lexema) {
 			case LEX_ID:
 			case LEX_LITERAL:
-				if (lex.idtable.table[lex.lextable.table[i].idxTI].idtype == IT::F)
+				if (lex.idtable.table[lex.lextable.table[i].idxTI].idtype == IT::F) {
 					is_function = true;
-				else
+					idx = lex.lextable.table[i].idxTI;
+				}
+				else {
+					if (is_function)
+						parm_counter++;
 					queue.push(lex.lextable.table[i]);
-				continue;
-
-			case LEX_COMMA:
-				parm_counter++;
+				}
 				continue;
 
 			case LEX_LEFTTHESIS:
@@ -51,14 +53,17 @@ namespace Polish {
 				if (!is_function)
 					stack.pop();
 				else {
+					function_symbol.idxTI = idx;
+					idx = LT_TI_NULLIDX;
 					lex.lextable.table[i] = function_symbol;
 					queue.push(lex.lextable.table[i]);
 					_itoa_s(parm_counter, buf, 2, 10);
 					stack.top().lexema = buf[0];
-					stack.top().idxTI = function_symbol.idxTI;
+					stack.top().idxTI = LT_TI_NULLIDX;
 					stack.top().line = function_symbol.line;
 					queue.push(stack.top());
 					stack.pop();
+					parm_counter = 0;
 					is_function = false;
 				}
 				continue;

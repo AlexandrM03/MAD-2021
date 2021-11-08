@@ -24,10 +24,9 @@ int wmain(int argc, wchar_t* argv[]) {
         In::IN in = In::getin(parm);
         Log::WriteIn(log, in);
         Lex::LEX lex = Lex::LexAnaliz(log, in);
-        IT::ShowTable(lex.idtable);
-        Polish::startPolish(lex);
-        Log::WriteLexTableLog(lex.lextable, log);
-        LT::ShowTable(lex.lextable, parm);
+        /*for (int i = 0; i < lex.idtable.size; i++) {
+            std::cout << lex.lextable.table[lex.idtable.table[i].idxFirstLE].lexema;
+        }*/
         /*MFST_TRACE_START
         unsigned int start_time = clock();
         MFST::Mfst mfst(lex.lextable, GRB::getGreibach());
@@ -37,6 +36,12 @@ int wmain(int argc, wchar_t* argv[]) {
         std::cout << search_time << std::endl;
         mfst.savededucation();
         mfst.printrules();*/
+
+        Polish::startPolish(lex);
+        Lex::Synchronization(lex);
+        IT::ShowTable(lex.idtable);
+        Log::WriteLexTableLog(lex.lextable, log);
+        LT::ShowTable(lex.lextable, parm);
         Log::Close(log);
     }
     catch (Error::ERROR e) {
