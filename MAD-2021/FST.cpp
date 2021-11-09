@@ -62,7 +62,7 @@ namespace FST {
 		return rc;
 	}
 
-	bool execute(FST& fst) {
+	bool execute(FST fst) {
 		short* rstates = new short[fst.nstates];			// массив размера nstates
 		memset(rstates, 0xff, sizeof(short) * fst.nstates); // заполняется нулями
 

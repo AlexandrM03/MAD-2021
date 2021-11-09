@@ -27,7 +27,7 @@ int wmain(int argc, wchar_t* argv[]) {
         /*for (int i = 0; i < lex.idtable.size; i++) {
             std::cout << lex.lextable.table[lex.idtable.table[i].idxFirstLE].lexema;
         }*/
-        /*MFST_TRACE_START
+        MFST_TRACE_START
         unsigned int start_time = clock();
         MFST::Mfst mfst(lex.lextable, GRB::getGreibach());
         mfst.start();
@@ -35,7 +35,7 @@ int wmain(int argc, wchar_t* argv[]) {
         unsigned int search_time = end_time - start_time;
         std::cout << search_time << std::endl;
         mfst.savededucation();
-        mfst.printrules();*/
+        mfst.printrules();
 
         Polish::startPolish(lex);
         Lex::Synchronization(lex);
