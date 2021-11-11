@@ -75,7 +75,7 @@ namespace Log {
 				<< ": " << error.message
 				<< "\nСтрока " << error.inext.line
 				<< " позиция " << error.inext.col << std::endl;
-			Close(log);
+			//Close(log);
 		}
 		else {
 			std::cout << "\nОшибка " << error.id
@@ -106,6 +106,9 @@ namespace Log {
 				break;
 			case LT::operations::ODIV:
 				op = '/';
+				break;
+			case LT::operations::OMOD:
+				op = '%';
 				break;
 			}
 			*log.stream << std::setfill('0') << std::setw(4) << std::right << i << " | " << std::setfill(' ') 

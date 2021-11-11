@@ -9,6 +9,7 @@
 #define MINUS		'-'
 #define STAR		'*'
 #define DIRSLASH	'/'
+#define MOD			'%'
 #define EQUAL		'='
 using namespace std;
 
@@ -57,13 +58,13 @@ namespace Lex {
 			bool findSameID = false;
 			position += strlen(word[i]);
 
-			if (FST::execute(FST::FST(word[i], FST_DECLARE))) {
-				LT::Entry entryLT = WriteEntry(entryLT, LEX_DECLARE, LT_TI_NULLIDX, line);
+			if (FST::execute(FST::FST(word[i], FST_LET))) {
+				LT::Entry entryLT = WriteEntry(entryLT, LEX_LET, LT_TI_NULLIDX, line);
 				LT::Add(lextable, entryLT);
 				findDeclaration = true;
 			}
-			else if (FST::execute(FST::FST(word[i], FST_INTEGER))) {
-				LT::Entry entryLT = WriteEntry(entryLT, LEX_INTEGER, LT_TI_NULLIDX, line);
+			else if (FST::execute(FST::FST(word[i], FST_INT))) {
+				LT::Entry entryLT = WriteEntry(entryLT, LEX_INT, LT_TI_NULLIDX, line);
 				LT::Add(lextable, entryLT);
 				findType = true;
 				entryIT.iddatatype = IT::INT;
@@ -80,12 +81,12 @@ namespace Lex {
 				LT::Add(lextable, entryLT);
 				findFunc = true;
 			}
-			else if (FST::execute(FST::FST(word[i], FST_RETURN))) {
-				LT::Entry entryLT = WriteEntry(entryLT, LEX_RETURN, LT_TI_NULLIDX, line);
+			else if (FST::execute(FST::FST(word[i], FST_RET))) {
+				LT::Entry entryLT = WriteEntry(entryLT, LEX_RET, LT_TI_NULLIDX, line);
 				LT::Add(lextable, entryLT);
 			}
-			else if (FST::execute(FST::FST(word[i], FST_PRINT))) {
-				LT::Entry entryLT = WriteEntry(entryLT, LEX_PRINT, LT_TI_NULLIDX, line);
+			else if (FST::execute(FST::FST(word[i], FST_WRITE))) {
+				LT::Entry entryLT = WriteEntry(entryLT, LEX_WRITE, LT_TI_NULLIDX, line);
 				LT::Add(lextable, entryLT);
 			}
 			else if (FST::execute(FST::FST(word[i], FST_MAIN))) {
@@ -228,6 +229,9 @@ namespace Lex {
 					entryLT.priority = 3;
 					entryLT.op = LT::operations::OMUL;
 					break;
+				case MOD:
+					entryLT.priority = 3;
+					entryLT.op = LT::operations::OMOD;
 				}
 				LT::Add(lextable, entryLT);
 			}

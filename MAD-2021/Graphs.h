@@ -1,24 +1,16 @@
 #pragma once
 #include "FST.h"
 
-#define FST_DECLARE 8,	\
-	FST::NODE(1, FST::RELATION('d', 1)),\
+#define FST_LET 4,	\
+	FST::NODE(1, FST::RELATION('l', 1)),\
 	FST::NODE(1, FST::RELATION('e', 2)),\
-	FST::NODE(1, FST::RELATION('c', 3)),\
-	FST::NODE(1, FST::RELATION('l', 4)),\
-	FST::NODE(1, FST::RELATION('a', 5)),\
-	FST::NODE(1, FST::RELATION('r', 6)),\
-	FST::NODE(1, FST::RELATION('e', 7)),\
+	FST::NODE(1, FST::RELATION('t', 3)),\
 	FST::NODE()
 
-#define FST_INTEGER 8,	\
+#define FST_INT 4,	\
 	FST::NODE(1, FST::RELATION('i', 1)),\
 	FST::NODE(1, FST::RELATION('n', 2)),\
 	FST::NODE(1, FST::RELATION('t', 3)),\
-	FST::NODE(1, FST::RELATION('e', 4)),\
-	FST::NODE(1, FST::RELATION('g', 5)),\
-	FST::NODE(1, FST::RELATION('e', 6)),\
-	FST::NODE(1, FST::RELATION('r', 7)),\
 	FST::NODE()
 
 #define FST_STRING 7,	\
@@ -41,21 +33,18 @@
 	FST::NODE(1, FST::RELATION('n', 8)),\
 	FST::NODE()
 
-#define FST_RETURN 7,	\
+#define FST_RET 4,	\
 	FST::NODE(1, FST::RELATION('r', 1)),\
 	FST::NODE(1, FST::RELATION('e', 2)),\
 	FST::NODE(1, FST::RELATION('t', 3)),\
-	FST::NODE(1, FST::RELATION('u', 4)),\
-	FST::NODE(1, FST::RELATION('r', 5)),\
-	FST::NODE(1, FST::RELATION('n', 6)),\
 	FST::NODE()
 
-#define FST_PRINT 6,	\
-	FST::NODE(1, FST::RELATION('p', 1)),\
+#define FST_WRITE 6,	\
+	FST::NODE(1, FST::RELATION('w', 1)),\
 	FST::NODE(1, FST::RELATION('r', 2)),\
 	FST::NODE(1, FST::RELATION('i', 3)),\
-	FST::NODE(1, FST::RELATION('n', 4)),\
-	FST::NODE(1, FST::RELATION('t', 5)),\
+	FST::NODE(1, FST::RELATION('t', 4)),\
+	FST::NODE(1, FST::RELATION('e', 5)),\
 	FST::NODE()
 
 #define FST_MAIN 5,	\
@@ -128,7 +117,7 @@
 	FST::NODE()
 
 #define FST_OPERATOR 2,	\
-	FST::NODE(4, FST::RELATION('+', 1), FST::RELATION('-', 1), FST::RELATION('*', 1), FST::RELATION('/', 1)),\
+	FST::NODE(5, FST::RELATION('+', 1), FST::RELATION('-', 1), FST::RELATION('*', 1), FST::RELATION('/', 1), FST::RELATION('%', 1)),\
 	FST::NODE()
 
 #define FST_PLUS 2,	\

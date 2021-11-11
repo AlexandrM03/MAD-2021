@@ -29,9 +29,21 @@ namespace Error {
 		ERROR_ENTRY_NODEF(206), ERROR_ENTRY_NODEF(207), ERROR_ENTRY_NODEF(208), ERROR_ENTRY_NODEF(209),
 		ERROR_ENTRY_NODEF10(210), ERROR_ENTRY_NODEF10(220), ERROR_ENTRY_NODEF10(230), ERROR_ENTRY_NODEF10(240), ERROR_ENTRY_NODEF10(250),
 		ERROR_ENTRY_NODEF10(260), ERROR_ENTRY_NODEF10(270), ERROR_ENTRY_NODEF10(280), ERROR_ENTRY_NODEF10(290),
-		ERROR_ENTRY(300, "[ SEMANTIC ] Имеется не закрытый строковый литерал"),
-		ERROR_ENTRY(301, "[ SEMANTIC ] Имеется более одной точки входа в main"),
-		ERROR_ENTRY(302, "[ SEMANTIC ] Не имеется точки входа в main"),
+		ERROR_ENTRY(300, "[ SEMANTIC ] Имеется не закрытый строковый литерал"),							// -	
+		ERROR_ENTRY(301, "[ SEMANTIC ] Имеется более одной точки входа в main"),						// +	
+		ERROR_ENTRY(302, "[ SEMANTIC ] Не имеется точки входа в main"),									// +	
+		ERROR_ENTRY(303, "[ SEMANTIC ] Превышен размер строкового литерала"),							// -	
+		ERROR_ENTRY(304, "[ SEMANTIC ] Объявление переменной без ключевого слова let"),					// -	
+		ERROR_ENTRY(305, "[ SEMANTIC ] Необъявленный идентификатор"),									// -	
+		ERROR_ENTRY(306, "[ SEMANTIC ] Объвление переменной без указания типа"),						// -											
+		ERROR_ENTRY(307, "[ SEMANTIC ] Попытка реализовать существующую функцию"),						// -											
+		ERROR_ENTRY(308, "[ SEMANTIC ] Объявление функции без указания типа"),							// -										
+		ERROR_ENTRY(309, "[ SEMANTIC ] Несовпадение типов передаваемых параметров функции"),			// -					
+		ERROR_ENTRY(310, "[ SEMANTIC ] Несоответствие арифметических операторов"),						// -											
+		ERROR_ENTRY(311, "[ SEMANTIC ] Невозможно деление на ноль"),									// +-								
+		ERROR_ENTRY(312, "[ SEMANTIC ] Несоответсвие типов данных"),									// +							
+		ERROR_ENTRY(313, "[ SEMANTIC ] Несоответсвие открытых и закрытых скобок в выражении"),			// -								
+		ERROR_ENTRY(314, "[ SEMANTIC ] Функция возвращает неверный тип данных"),						// +								
 		ERROR_ENTRY_NODEF100(700), ERROR_ENTRY_NODEF100(800), ERROR_ENTRY_NODEF100(900)
 	};
 	ERROR geterror(int id) {
