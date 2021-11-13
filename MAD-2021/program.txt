@@ -1,17 +1,16 @@
 int function fi(string s)
 {
-   let int i;
-   string function vl()
-   {
-      ret '123';
-   }
+   let int i; # ќбъ€вление
    ret i;
 };
-int main()
+main
 {
+   let string str;
+   str = '123#123#123';
    let int a;
    let string b;
    a = 1 + (fi(b));
    write 'контрольный       пример';
    ret 0;
 };
+#123123

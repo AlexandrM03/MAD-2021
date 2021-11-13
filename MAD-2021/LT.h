@@ -55,5 +55,5 @@ namespace LT {
 	Entry GetEntry(LexTable& lextable, int n);
 	void Delete(LexTable& lextable);
 	Entry WriteEntry(Entry& entry, char lexema, int indx, int line);
-	void ShowTable(LexTable lextable, Parm::PARM parm);
+	void ShowTable(LexTable lextable, std::ostream& stream_out);
 }

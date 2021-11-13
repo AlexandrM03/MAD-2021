@@ -11,7 +11,7 @@
 #include "GRB.h"
 #include "SemAnalysis.h"
 
-void check_syntax(Lex::LEX lex);
+void check_syntax(Lex::LEX lex, Log::LOG log);
 
 int wmain(int argc, wchar_t* argv[]) {
     setlocale(LC_ALL, "RUS");
@@ -21,23 +21,19 @@ int wmain(int argc, wchar_t* argv[]) {
     try {
         Parm::PARM parm = Parm::getparm(argc, argv);
         log = Log::getlog(parm.log);
-        Log::WriteLine(log, "Тест: ", "без ошибок ", "");
         Log::WriteLog(log);
         Log::WriteParm(log, parm);
         In::IN in = In::getin(parm);
         Log::WriteIn(log, in);
         Lex::LEX lex = Lex::LexAnaliz(log, in);
-        //check_syntax(lex);
-        //Semantic::Analyze(lex, log);
-
+        check_syntax(lex, log);
+        Semantic::Analyze(lex, log);
         Polish::startPolish(lex);
         Lex::Synchronization(lex);
-        IT::ShowTable(lex.idtable);
+
+        IT::ShowTable(lex.idtable, *log.stream);
         Log::WriteLexTableLog(lex.lextable, log);
-        LT::ShowTable(lex.lextable, parm);
-        for (int i = 0; i < lex.idtable.size; i++) {
-            std::cout << lex.lextable.table[lex.idtable.table[i].idxFirstLE].lexema;
-        }
+        LT::ShowTable(lex.lextable, *log.stream);
         Log::Close(log);
     }
     catch (Error::ERROR e) {
@@ -45,14 +41,9 @@ int wmain(int argc, wchar_t* argv[]) {
     }
 }
 
-void check_syntax(Lex::LEX lex) {
-    MFST_TRACE_START
-    unsigned int start_time = clock();
+void check_syntax(Lex::LEX lex, Log::LOG log) {
     MFST::Mfst mfst(lex.lextable, GRB::getGreibach());
-    mfst.start();
-    unsigned int end_time = clock();
-    unsigned int search_time = end_time - start_time;
-    std::cout << search_time << std::endl;
+    mfst.start(*log.stream);
     mfst.savededucation();
-    mfst.printrules();
+    mfst.printrules(*log.stream);
 }

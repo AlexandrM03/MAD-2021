@@ -13,34 +13,34 @@ public:
 static int FST_TRACE_n = -1;
 static char rbuf[205], sbuf[205], lbuf[1024];
 
-#define MFST_TRACE_START	std::cout << std::setw(5) << std::setfill(' ') << std::left << "Шаг" << ":"\
+#define MFST_TRACE_START	stream_out << "\n\n\t\tСинтактический анализ\n\n" << std::setw(4) << std::setfill(' ') << std::left << "Шаг" << ": "\
 							<< std::setw(30) << std::left << "Правило"\
 							<< std::setw(30) << std::left << "Входная лента"\
 							<< std::setw(20) << std::left << "Стек"\
 							<< std::endl;
 
-#define MFST_TRACE1			std::cout << std::setw(4) << std::left << ++FST_TRACE_n << ": " \
+#define MFST_TRACE1			stream_out << std::setw(4) << std::left << ++FST_TRACE_n << ": " \
 							<< std::setw(30) << std::left << rule.getCRule(rbuf, nrulechain)\
 							<< std::setw(30) << std::left << getCLenta(lbuf, lenta_position)\
 							<< std::setw(20) << std::left << getCSt(sbuf)\
 							<< std::endl;
 
-#define MFST_TRACE2			std::cout << std::setw(4) << std::left << FST_TRACE_n << ": "\
+#define MFST_TRACE2			stream_out << std::setw(4) << std::left << FST_TRACE_n << ": "\
 							<< std::setw(30) << std::left << " "\
 							<< std::setw(30) << std::left << getCLenta(lbuf, lenta_position)\
 							<< std::setw(20) << std::left << getCSt(sbuf)\
 							<< std::endl;
 
-#define MFST_TRACE3			std::cout << std::setw(4) << std::left << ++FST_TRACE_n << ": "\
+#define MFST_TRACE3			stream_out << std::setw(4) << std::left << ++FST_TRACE_n << ": "\
 							<< std::setw(30) << std::left << " "\
 							<< std::setw(30) << std::left << getCLenta(lbuf, lenta_position)\
 							<< std::setw(20) << std::left << getCSt(sbuf)\
 							<< std::endl;
 
-#define MFST_TRACE4(c)		std::cout << std::setw(4) << std::left << ++FST_TRACE_n << ": " << std::setw(20) << std::left << c << std::endl;
-#define MFST_TRACE5(c)		std::cout << std::setw(4) << std::left << FST_TRACE_n << ": " << std::setw(20) << std::left << c << std::endl;
-#define MFST_TRACE6(c, k)	std::cout << std::setw(4) << std::left << FST_TRACE_n << ": " << std::setw(20) << std::left << c << k << std::endl;
-#define MFST_TRACE7			std::cout << std::setw(4) << std::left << state.lenta_position << ": "\
+#define MFST_TRACE4(c)		stream_out << std::setw(4) << std::left << ++FST_TRACE_n << ": " << std::setw(20) << std::left << c << std::endl;
+#define MFST_TRACE5(c)		stream_out << std::setw(4) << std::left << FST_TRACE_n << ": " << std::setw(20) << std::left << c << std::endl;
+#define MFST_TRACE6(c, k)	stream_out << std::setw(4) << std::left << FST_TRACE_n << ": " << std::setw(20) << std::left << c << k << std::endl;
+#define MFST_TRACE7			stream_out << std::setw(4) << std::left << state.lenta_position << ": "\
 							<< std::setw(20) << std::left << rule.getCRule(rbuf, state.nrulechain)\
 							<< std::endl;
 
@@ -96,13 +96,13 @@ namespace MFST {
 		char* getCSt(char* buf);
 		char* getCLenta(char* buf, short pos, short n = 25);
 		char* getDiagnosis(short n, char* buf);
-		bool savestate();
-		bool resetstate();
+		bool savestate(std::ostream& stream_out);
+		bool resetstate(std::ostream& stream_out);
 		bool push_chain(GRB::Rule::Chain chain);
-		RC_STEP step();
-		bool start();
+		RC_STEP step(std::ostream& stream_out);
+		bool start(std::ostream& stream_out);
 		bool saveddiagnosis(RC_STEP pprc_step);
-		void printrules();
+		void printrules(std::ostream& stream_out);
 
 		struct Deducation {
 			short size;

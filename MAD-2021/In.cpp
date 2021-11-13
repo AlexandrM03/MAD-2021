@@ -12,6 +12,7 @@ namespace In
 		IN in;
 		unsigned char letter;
 		int i = 0, position = 0;
+		bool str_literal = false;
 
 		in.size = 0;
 		in.lines = 0;
@@ -35,6 +36,24 @@ namespace In
 
 			switch (in.code[(int)letter])
 			{
+			case in.L:
+				str_literal = !str_literal;
+				in.text[i] = letter;
+				i++;
+				in.size++;
+				position++;
+				break;
+			case in.C:
+				if (!str_literal)
+					while (!file.eof() && in.code[(int)letter] != in.BR)
+						letter = file.get();
+				else {
+					in.text[i] = letter;
+					i++;
+					in.size++;
+					position++;
+				}
+				break;
 			case in.BR:
 				in.lines++;
 				position = 0;

@@ -36,20 +36,19 @@ namespace LT {
 		return entry;
 	}
 
-	void ShowTable(LexTable lextable, Parm::PARM parm) {
-		ofstream out(parm.out);
+	void ShowTable(LexTable lextable, std::ostream& stream_out) {
 		int line = 2;
-		out << "0001| ";
+		stream_out << "\n\t\tПромежуточное представление\n";
+		stream_out << "0001| ";
 		for (int i = 0; i < lextable.size; i++) {
 			if (lextable.table[i].lexema == ';') {
-				out << lextable.table[i].lexema << endl;
+				stream_out << lextable.table[i].lexema << endl;
 				if (i + 1 == lextable.size) break;
-				line > 999 ? out << line << "| " : line > 99 ? out << "0" << line << "| " : line > 9 ? out << "00" << line <<
-					"| " : out << "000" << line << "| ";
+				line > 999 ? stream_out << line << "| " : line > 99 ? stream_out << "0" << line << "| " : line > 9 ? stream_out << "00" << line <<
+					"| " : stream_out << "000" << line << "| ";
 				line++;
 			}
-			else out << lextable.table[i].lexema;
+			else stream_out << lextable.table[i].lexema;
 		}
-		out.close();
 	}
 }

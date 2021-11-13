@@ -87,7 +87,7 @@ namespace Log {
 
 	void WriteLexTableLog(LT::LexTable& lextable, LOG log) {
 		int i;
-		*log.stream << "\t\tТаблица лексем" << std::endl;
+		*log.stream << "\n\t\tТаблица лексем" << std::endl;
 		*log.stream << std::setfill('-') << std::setw(90) << '-' << std::endl;
 		*log.stream << "   #" << " | " << "Лексема" << std::setfill(' ') << std::setw(20) << ' ' << std::left 
 			<< " | " << "Строка" << std::setw(21) << ' ' << std::left << " | " << "Индекс в ТИ" << std::endl;

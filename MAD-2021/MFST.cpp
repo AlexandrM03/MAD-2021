@@ -50,7 +50,7 @@ namespace MFST {
 	}
 
 #pragma endregion
-	Mfst::RC_STEP Mfst::step() {
+	Mfst::RC_STEP Mfst::step(std::ostream& stream_out) {
 		RC_STEP rc = SURPRISE;
 		if (lenta_position < lenta_size) {
 			if (GRB::Rule::Chain::isN(st.top())) {
@@ -59,12 +59,12 @@ namespace MFST {
 					GRB::Rule::Chain chain;
 					if ((nrulechain = rule.getNextChain(lenta[lenta_position], chain, nrulechain + 1)) >= 0) {
 						MFST_TRACE1
-							savestate(); st.pop(); push_chain(chain); rc = NS_OK;
+							savestate(stream_out); st.pop(); push_chain(chain); rc = NS_OK;
 						MFST_TRACE2
 					}
 					else {
 						MFST_TRACE4("NS_NRCHAIN/NS_NR")
-							saveddiagnosis(NS_NORULECHAIN); rc = resetstate() ? NS_NORULECHAIN : NS_NORULE;
+							saveddiagnosis(NS_NORULECHAIN); rc = resetstate(stream_out) ? NS_NORULECHAIN : NS_NORULE;
 					}
 				}
 				else rc = NS_ERROR;
@@ -74,7 +74,7 @@ namespace MFST {
 				MFST_TRACE3
 			}
 			else {
-				MFST_TRACE4(TS_NOK / NS_NORULECHAIN) rc = resetstate() ? TS_NOK : NS_NORULECHAIN;
+				MFST_TRACE4(TS_NOK / NS_NORULECHAIN) rc = resetstate(stream_out) ? TS_NOK : NS_NORULECHAIN;
 			}
 		}
 		else {
@@ -91,13 +91,13 @@ namespace MFST {
 		return true;
 	}
 
-	bool Mfst::savestate() {
+	bool Mfst::savestate(std::ostream& stream_out) {
 		storestate.push(MfstState(lenta_position, st, nrule, nrulechain));
 		MFST_TRACE6("SAVESTATE:", storestate.size());
 		return true;
 	}
 
-	bool Mfst::resetstate() {
+	bool Mfst::resetstate(std::ostream& stream_out) {
 		bool rc = false;
 		MfstState state;
 		if (rc = (storestate.size() > 0)) {
@@ -131,28 +131,29 @@ namespace MFST {
 		return rc;
 	}
 
-	bool Mfst::start() {
+	bool Mfst::start(std::ostream& stream_out) {
+		MFST_TRACE_START
 		bool rc = false;
 		RC_STEP rc_step = SURPRISE;
 		char buf[MFST_DIAGN_MAXSIZE]{};
-		rc_step = step();
+		rc_step = step(stream_out);
 		while (rc_step == NS_OK || rc_step == NS_NORULECHAIN || rc_step == TS_OK || rc_step == TS_NOK)
-			rc_step = step();
+			rc_step = step(stream_out);
 
 		switch (rc_step) {
 		case LENTA_END:
 			MFST_TRACE4("------>LENTA_END")
-				std::cout << "------------------------------------------------------------------------------------------   ------" << std::endl;
+				stream_out << "------------------------------------------------------------------------------------------   ------" << std::endl;
 			sprintf_s(buf, MFST_DIAGN_MAXSIZE, "%d: всего строк %d, синтаксический анализ выполнен без ошибок", 0, lex.table[lex.size - 1].line);
-			std::cout << std::setw(4) << std::left << 0 << "всего строк " << lex.table[lex.size - 1].line << ", синтаксический анализ выполнен без ошибок" << std::endl;
+			stream_out << std::setw(4) << std::left << 0 << "всего строк " << lex.table[lex.size - 1].line << ", синтаксический анализ выполнен без ошибок" << std::endl;
 			rc = true;
 			break;
 		case NS_NORULE:
 			MFST_TRACE4("------>NS_NORULE")
-				std::cout << "------------------------------------------------------------------------------------------   ------" << std::endl;
-			std::cout << getDiagnosis(0, buf) << std::endl;
-			std::cout << getDiagnosis(1, buf) << std::endl;
-			std::cout << getDiagnosis(2, buf) << std::endl;
+				stream_out << "------------------------------------------------------------------------------------------   ------" << std::endl;
+			stream_out << getDiagnosis(0, buf) << std::endl;
+			stream_out << getDiagnosis(1, buf) << std::endl;
+			stream_out << getDiagnosis(2, buf) << std::endl;
 			break;
 		case NS_NORULECHAIN:
 			MFST_TRACE4("------>NS_NORULECHAIN") break;
@@ -199,7 +200,7 @@ namespace MFST {
 		return rc;
 	}
 
-	void Mfst::printrules() {
+	void Mfst::printrules(std::ostream& stream_out) {
 		MfstState state;
 		GRB::Rule rule;
 		for (unsigned short i = 0; i < storestate.size(); i++) {

@@ -36,56 +36,57 @@ namespace IT {
 		delete[] idtable.table;
 	}
 
-	void ShowTable(IdTable& idtable) {
+	void ShowTable(IdTable& idtable, std::ostream& stream_out) {
 		int i, j, numberOP = 0;
-		cout << setfill('-') << setw(87) << '-' << endl;
-		cout << "   #" << " | " << "Идентификатор" << " | " << "Тип данных" << " | " << "Тип идентификатора" 
+		stream_out << "\n";
+		stream_out << setfill('-') << setw(87) << '-' << endl;
+		stream_out << "   #" << " | " << "Идентификатор" << " | " << "Тип данных" << " | " << "Тип идентификатора"
 			<< " | " << "Индекс в ТЛ" << " | " << "Значение" << endl;
-		cout << setw(87) << '-' << endl;
+		stream_out << setw(87) << '-' << endl;
 
 		for (i = 0, j = 0; i < idtable.size; i++, j++) {
-			cout << setfill('0') << setw(4) << right << j << " | ";
-			cout << setfill(' ') << setw(13) << left << idtable.table[i].id << " | ";
+			stream_out << setfill('0') << setw(4) << right << j << " | ";
+			stream_out << setfill(' ') << setw(13) << left << idtable.table[i].id << " | ";
 
 			switch (idtable.table[i].iddatatype) {
 			case INT:
-				cout << setw(10) << left;
-				if (idtable.table[i].iddatatype == OP) cout << "-" << " | ";
-				else cout << "integer" << " | ";
+				stream_out << setw(10) << left;
+				if (idtable.table[i].iddatatype == OP) stream_out << "-" << " | ";
+				else stream_out << "integer" << " | ";
 				break;
 			case STR:
-				cout << setw(10) << left;
-				if (idtable.table[i].idtype == OP) cout << "-" << " | ";
-				cout << "string" << " | ";
+				stream_out << setw(10) << left;
+				if (idtable.table[i].idtype == OP) stream_out << "-" << " | ";
+				stream_out << "string" << " | ";
 				break;
 			default:
-				cout << setw(10) << left << "unknown" << " | ";
+				stream_out << setw(10) << left << "unknown" << " | ";
 				break;
 			}
 
 			switch (idtable.table[i].idtype) {
-			case V: cout << setw(18) << left << "переменная" << " | "; break;
-			case F: cout << setw(18) << left << "функция" << " | "; break;
-			case P: cout << setw(18) << left << "параметр" << " | "; break;
-			case L: cout << setw(18) << left << "литерал" << " | "; break;
+			case V: stream_out << setw(18) << left << "переменная" << " | "; break;
+			case F: stream_out << setw(18) << left << "функция" << " | "; break;
+			case P: stream_out << setw(18) << left << "параметр" << " | "; break;
+			case L: stream_out << setw(18) << left << "литерал" << " | "; break;
 			case OP:
-				cout << setw(18) << left << "оператор" << " | ";
+				stream_out << setw(18) << left << "оператор" << " | ";
 				numberOP++;
 				break;
-			default: cout << setw(18) << left << "unknown" << " | "; break;
+			default: stream_out << setw(18) << left << "unknown" << " | "; break;
 			}
-			cout << setw(11) << left << idtable.table[i].idxFirstLE << " | ";
+			stream_out << setw(11) << left << idtable.table[i].idxFirstLE << " | ";
 
 			if (idtable.table[i].iddatatype == INT && (idtable.table[i].idtype == V || idtable.table[i].idtype == L))
-				cout << setw(18) << left << idtable.table[i].value.vint;
+				stream_out << setw(18) << left << idtable.table[i].value.vint;
 			else if (idtable.table[i].iddatatype == STR && (idtable.table[i].idtype == V || idtable.table[i].idtype == L))
-				cout << "[" << idtable.table[i].value.vstr.len << "]\"" << idtable.table[i].value.vstr.str << "\"";
-			else cout << "-";
-			cout << endl;
+				stream_out << "[" << idtable.table[i].value.vstr.len << "]\"" << idtable.table[i].value.vstr.str << "\"";
+			else stream_out << "-";
+			stream_out << endl;
 		}
 
-		cout << setfill('-') << setw(87) << "-" << endl;
-		cout << "Количество идентификаторов: " << i << endl;
-		cout << setw(87) << "-" << endl;
+		stream_out << setfill('-') << setw(87) << "-" << endl;
+		stream_out << "Количество идентификаторов: " << i << endl;
+		stream_out << setw(87) << "-" << endl;
 	}
 }
