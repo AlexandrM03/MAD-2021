@@ -13,6 +13,13 @@
 	FST::NODE(1, FST::RELATION('t', 3)),\
 	FST::NODE()
 
+#define FST_BOOL 5,	\
+	FST::NODE(1, FST::RELATION('b', 1)),\
+	FST::NODE(1, FST::RELATION('o', 2)),\
+	FST::NODE(1, FST::RELATION('o', 3)),\
+	FST::NODE(1, FST::RELATION('l', 4)),\
+	FST::NODE()
+
 #define FST_STRING 7,	\
 	FST::NODE(1, FST::RELATION('s', 1)),\
 	FST::NODE(1, FST::RELATION('t', 2)),\
@@ -54,6 +61,15 @@
 	FST::NODE(1, FST::RELATION('n', 4)),\
 	FST::NODE()
 
+#define FST_REPEAT 7, \
+	FST::NODE(1, FST::RELATION('r', 1)),\
+	FST::NODE(1, FST::RELATION('e', 2)),\
+	FST::NODE(1, FST::RELATION('p', 3)),\
+	FST::NODE(1, FST::RELATION('e', 4)),\
+	FST::NODE(1, FST::RELATION('a', 5)),\
+	FST::NODE(1, FST::RELATION('t', 6)),\
+	FST::NODE()
+
 #define FST_ID 2,	\
 	FST::NODE(52,	\
 	FST::RELATION('a', 0), FST::RELATION('b', 0), FST::RELATION('c', 0), FST::RELATION('d', 0), FST::RELATION('e', 0), FST::RELATION('f', 0),\
@@ -76,6 +92,21 @@
 	\
 	FST::RELATION('1', 1), FST::RELATION('2', 1), FST::RELATION('3', 1), FST::RELATION('4', 1), FST::RELATION('5', 1), FST::RELATION('6', 1),\
 	FST::RELATION('7', 1), FST::RELATION('8', 1), FST::RELATION('9', 1), FST::RELATION('0', 1)),\
+	FST::NODE()
+
+#define FST_TRUE 5,	\
+	FST::NODE(1, FST::RELATION('t', 1)),\
+	FST::NODE(1, FST::RELATION('r', 2)),\
+	FST::NODE(1, FST::RELATION('u', 3)),\
+	FST::NODE(1, FST::RELATION('e', 4)),\
+	FST::NODE()
+
+#define FST_FALSE 6,	\
+	FST::NODE(1, FST::RELATION('f', 1)),\
+	FST::NODE(1, FST::RELATION('a', 2)),\
+	FST::NODE(1, FST::RELATION('l', 3)),\
+	FST::NODE(1, FST::RELATION('s', 4)),\
+	FST::NODE(1, FST::RELATION('e', 5)),\
 	FST::NODE()
 
 #define FST_STRLIT 4,	\
@@ -117,7 +148,7 @@
 	FST::NODE()
 
 #define FST_OPERATOR 2,	\
-	FST::NODE(5, FST::RELATION('+', 1), FST::RELATION('-', 1), FST::RELATION('*', 1), FST::RELATION('/', 1), FST::RELATION('%', 1)),\
+	FST::NODE(9, FST::RELATION('+', 1), FST::RELATION('-', 1), FST::RELATION('*', 1), FST::RELATION('/', 1), FST::RELATION('%', 1), FST::RELATION('>', 1), FST::RELATION('<', 1), FST::RELATION('~', 1), FST::RELATION('!', 1)),\
 	FST::NODE()
 
 #define FST_PLUS 2,	\

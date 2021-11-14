@@ -2,6 +2,8 @@
 #include "stdafx.h"
 #include "GRB.h"
 #include "LT.h"
+#include "LexAnalisys.h"
+#include "Log.h"
 
 class my_stack_SHORT :public std::stack<short> {
 public:
@@ -117,4 +119,6 @@ namespace MFST {
 
 		bool savededucation();
 	};
+
+	void check_syntax(Lex::LEX lex, Log::LOG log, std::ostream& stream_out);
 }

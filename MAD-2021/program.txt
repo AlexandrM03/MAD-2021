@@ -1,6 +1,13 @@
 int function fi(string s)
 {
    let int i; # Объявление
+   i = 0;
+   repeat (i < 10) {
+      i = i + 1;
+   }
+   bool bl;
+   bl = false;
+   bl = true;
    ret i;
 };
 main

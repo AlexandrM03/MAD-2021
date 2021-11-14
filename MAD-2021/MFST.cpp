@@ -224,4 +224,11 @@ namespace MFST {
 
 		return true;
 	}
+
+	void check_syntax(Lex::LEX lex, Log::LOG log, std::ostream& stream_out) {
+		MFST::Mfst mfst(lex.lextable, GRB::getGreibach());
+		mfst.start(stream_out);
+		mfst.savededucation();
+		mfst.printrules(stream_out);
+	}
 }

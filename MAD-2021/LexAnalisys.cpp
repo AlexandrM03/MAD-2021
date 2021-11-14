@@ -10,6 +10,10 @@
 #define STAR		'*'
 #define DIRSLASH	'/'
 #define MOD			'%'
+#define MORE		'>'
+#define LESS		'<'
+#define EQU			'~'
+#define NEQU		'!'
 #define EQUAL		'='
 using namespace std;
 
@@ -42,6 +46,7 @@ namespace Lex {
 		int mainCounter = 0;
 		bool findDeclaration = false;
 		bool findType = false;
+		int is_cycle = 0;
 
 		std::stack<std::string> functions;
 		char* bufprefix = new char[10]{ "" };
@@ -68,6 +73,12 @@ namespace Lex {
 				LT::Add(lextable, entryLT);
 				findType = true;
 				entryIT.iddatatype = IT::INT;
+			}
+			else if (FST::execute(FST::FST(word[i], FST_BOOL))) {
+				LT::Entry entryLT = WriteEntry(entryLT, LEX_BOOL, LT_TI_NULLIDX, line);
+				LT::Add(lextable, entryLT);
+				findType = true;
+				entryIT.iddatatype = IT::BOOL;
 			}
 			else if (FST::execute(FST::FST(word[i], FST_STRING))) {
 				LT::Entry entryLT = WriteEntry(entryLT, LEX_STRING, LT_TI_NULLIDX, line);
@@ -102,6 +113,41 @@ namespace Lex {
 				functions.push(word[i]);
 				findMain = true;
 				mainCounter++;
+			}
+			else if (FST::execute(FST::FST(word[i], FST_REPEAT))) {
+				LT::Entry entryLT = WriteEntry(entryLT, LEX_REPEAT, LT_TI_NULLIDX, line);
+				LT::Add(lextable, entryLT);
+				is_cycle++;
+			}
+			else if (FST::execute(FST::FST(word[i], FST_TRUE)) || FST::execute(FST::FST(word[i], FST_FALSE))) {
+				int value;
+				if (!strcmp((char*)word[i], "true")) value = 1;
+				else value = 0;
+
+				for (int k = 0; k < idtable.size; k++) {
+					if (idtable.table[k].value.vint == value && idtable.table[k].idtype == IT::L && idtable.table[k].iddatatype == IT::BOOL) {
+						LT::Entry entryLT = WriteEntry(entryLT, LEX_LITERAL, k, line);
+						LT::Add(lextable, entryLT);
+						findSameID = true;
+						break;
+					}
+				}
+
+				if (findSameID) continue;
+
+				entryIT.idtype = IT::L;
+				entryIT.iddatatype = IT::BOOL;
+				entryIT.value.vint = value;
+				entryIT.idxFirstLE = indexLex;
+				_itoa_s(literalCounter++, charclit, sizeof(char) * 10, 10);
+				strcpy(bufL, L);
+				word[i] = strcat(bufL, charclit);
+				strcpy(entryIT.id, word[i]);
+				IT::Add(idtable, entryIT);
+				entryIT = {};
+
+				LT::Entry entryLT = WriteEntry(entryLT, LEX_LITERAL, IT::IsId(idtable, word[i]), line);
+				LT::Add(lextable, entryLT);
 			}
 			else if (FST::execute(FST::FST(word[i], FST_ID))) {
 				if (findParm)
@@ -213,6 +259,22 @@ namespace Lex {
 
 				LT::Entry entryLT = WriteEntry(entryLT, LEX_OPERATOR, IT::IsId(idtable, word[i]), line);
 				switch (word[i][0]) {
+				case MORE:
+					entryLT.priority = 0;
+					entryLT.op = LT::operations::OMORE;
+					break;
+				case LESS:
+					entryLT.priority = 0;
+					entryLT.op = LT::operations::OLESS;
+					break;
+				case EQU:
+					entryLT.priority = 0;
+					entryLT.op = LT::operations::OEQU;
+					break;
+				case NEQU:
+					entryLT.priority = 0;
+					entryLT.op = LT::operations::ONEQU;
+					break;
 				case PLUS:
 					entryLT.priority = 2;
 					entryLT.op = LT::operations::OPLUS;
@@ -254,8 +316,9 @@ namespace Lex {
 				LT::Add(lextable, entryLT);
 			}
 			else if (FST::execute(FST::FST(word[i], FST_BRACELET))) {
-				if (!functions.empty())
+				if (!functions.empty() && is_cycle == 0)
 					functions.pop();
+				else if (is_cycle != 0) is_cycle--;
 				LT::Entry entryLT = WriteEntry(entryLT, LEX_BRACELET, LT_TI_NULLIDX, line);
 				LT::Add(lextable, entryLT);
 			}

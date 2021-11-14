@@ -48,20 +48,25 @@ namespace IT {
 			stream_out << setfill('0') << setw(4) << right << j << " | ";
 			stream_out << setfill(' ') << setw(13) << left << idtable.table[i].id << " | ";
 
-			switch (idtable.table[i].iddatatype) {
-			case INT:
-				stream_out << setw(10) << left;
-				if (idtable.table[i].iddatatype == OP) stream_out << "-" << " | ";
-				else stream_out << "integer" << " | ";
-				break;
-			case STR:
-				stream_out << setw(10) << left;
-				if (idtable.table[i].idtype == OP) stream_out << "-" << " | ";
-				stream_out << "string" << " | ";
-				break;
-			default:
-				stream_out << setw(10) << left << "unknown" << " | ";
-				break;
+			if (idtable.table[i].idtype == IT::OP) stream_out << setw(10) << left << "-" << " | ";
+			else {
+				switch (idtable.table[i].iddatatype) {
+				case INT:
+					stream_out << setw(10) << left;
+					stream_out << "int" << " | ";
+					break;
+				case STR:
+					stream_out << setw(10) << left;
+					stream_out << "string" << " | ";
+					break;
+				case BOOL:
+					stream_out << setw(10) << left;
+					stream_out << "bool" << " | ";
+					break;
+				default:
+					stream_out << setw(10) << left << "unknown" << " | ";
+					break;
+				}
 			}
 
 			switch (idtable.table[i].idtype) {
@@ -81,6 +86,8 @@ namespace IT {
 				stream_out << setw(18) << left << idtable.table[i].value.vint;
 			else if (idtable.table[i].iddatatype == STR && (idtable.table[i].idtype == V || idtable.table[i].idtype == L))
 				stream_out << "[" << idtable.table[i].value.vstr.len << "]\"" << idtable.table[i].value.vstr.str << "\"";
+			else if (idtable.table[i].iddatatype == BOOL && (idtable.table[i].idtype == V || idtable.table[i].idtype == L))
+				stream_out << setw(18) << left << (idtable.table[i].value.vint == 0 ? "false" : "true");
 			else stream_out << "-";
 			stream_out << endl;
 		}

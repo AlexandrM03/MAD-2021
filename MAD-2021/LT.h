@@ -6,6 +6,7 @@
 #define LT_TI_NULLIDX	0xffffffff
 #define LEX_INT			't'
 #define LEX_STRING		't'
+#define LEX_BOOL		't'
 #define LEX_ID			'i'
 #define LEX_LITERAL		'l'
 #define LEX_FUNCTION	'f'
@@ -25,6 +26,7 @@
 #define LEX_DIRSLASH	'v'
 #define LEX_OPERATOR	'v'
 #define LEX_EQUAL		'='
+#define LEX_REPEAT		'c'
 
 namespace LT {
 	enum operations {
@@ -33,7 +35,11 @@ namespace LT {
 		OMINUS,
 		OMUL,
 		ODIV,
-		OMOD
+		OMOD,
+		OMORE,
+		OLESS,
+		OEQU,
+		ONEQU
 	};
 
 	struct Entry {

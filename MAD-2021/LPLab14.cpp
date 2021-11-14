@@ -11,8 +11,6 @@
 #include "GRB.h"
 #include "SemAnalysis.h"
 
-void check_syntax(Lex::LEX lex, Log::LOG log);
-
 int wmain(int argc, wchar_t* argv[]) {
     setlocale(LC_ALL, "RUS");
 
@@ -26,7 +24,7 @@ int wmain(int argc, wchar_t* argv[]) {
         In::IN in = In::getin(parm);
         Log::WriteIn(log, in);
         Lex::LEX lex = Lex::LexAnaliz(log, in);
-        check_syntax(lex, log);
+        //MFST::check_syntax(lex, log, *log.stream);
         Semantic::Analyze(lex, log);
         Polish::startPolish(lex);
         Lex::Synchronization(lex);
@@ -39,11 +37,4 @@ int wmain(int argc, wchar_t* argv[]) {
     catch (Error::ERROR e) {
         Log::WriteError(log, e);
     }
-}
-
-void check_syntax(Lex::LEX lex, Log::LOG log) {
-    MFST::Mfst mfst(lex.lextable, GRB::getGreibach());
-    mfst.start(*log.stream);
-    mfst.savededucation();
-    mfst.printrules(*log.stream);
 }
