@@ -24,9 +24,12 @@ int wmain(int argc, wchar_t* argv[]) {
         In::IN in = In::getin(parm);
         Log::WriteIn(log, in);
         Lex::LEX lex = Lex::LexAnaliz(log, in);
-        //MFST::check_syntax(lex, log, *log.stream);
-        Semantic::Analyze(lex, log);
-        Polish::startPolish(lex);
+        MFST::check_syntax(lex, log, *log.stream);
+        if (!Semantic::Analyze(lex, log)) {
+            std::cout << "Semantic errors. Check log file to get more info";
+            exit(-1);
+        }
+        //Polish::startPolish(lex);
         Lex::Synchronization(lex);
 
         IT::ShowTable(lex.idtable, *log.stream);

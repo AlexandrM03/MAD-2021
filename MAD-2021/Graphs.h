@@ -46,6 +46,41 @@
 	FST::NODE(1, FST::RELATION('t', 3)),\
 	FST::NODE()
 
+#define FST_BREAK 6,	\
+	FST::NODE(1, FST::RELATION('b', 1)),\
+	FST::NODE(1, FST::RELATION('r', 2)),\
+	FST::NODE(1, FST::RELATION('e', 3)),\
+	FST::NODE(1, FST::RELATION('a', 4)),\
+	FST::NODE(1, FST::RELATION('k', 5)),\
+	FST::NODE()
+
+#define FST_PROCEDURE 10,	\
+	FST::NODE(1, FST::RELATION('p', 1)),\
+	FST::NODE(1, FST::RELATION('r', 2)),\
+	FST::NODE(1, FST::RELATION('o', 3)),\
+	FST::NODE(1, FST::RELATION('c', 4)),\
+	FST::NODE(1, FST::RELATION('e', 5)),\
+	FST::NODE(1, FST::RELATION('d', 6)),\
+	FST::NODE(1, FST::RELATION('u', 7)),\
+	FST::NODE(1, FST::RELATION('r', 8)),\
+	FST::NODE(1, FST::RELATION('e', 9)),\
+	FST::NODE()
+
+#define FST_WHERE 6,	\
+	FST::NODE(1, FST::RELATION('w', 1)),\
+	FST::NODE(1, FST::RELATION('h', 2)),\
+	FST::NODE(1, FST::RELATION('e', 3)),\
+	FST::NODE(1, FST::RELATION('r', 4)),\
+	FST::NODE(1, FST::RELATION('e', 5)),\
+	FST::NODE()
+
+#define FST_ELSE 5,	\
+	FST::NODE(1, FST::RELATION('e', 1)),\
+	FST::NODE(1, FST::RELATION('l', 2)),\
+	FST::NODE(1, FST::RELATION('s', 3)),\
+	FST::NODE(1, FST::RELATION('e', 4)),\
+	FST::NODE()
+
 #define FST_WRITE 6,	\
 	FST::NODE(1, FST::RELATION('w', 1)),\
 	FST::NODE(1, FST::RELATION('r', 2)),\

@@ -33,10 +33,10 @@ namespace Lex {
 			word = divideText(in.text, in.size);
 		} while (word == NULL);
 
-		for (int i = 0; word[i]; i++) {
+		/*for (int i = 0; word[i]; i++) {
 			cout << word[i];
 		}
-		cout << endl;
+		cout << endl;*/
 
 		int indexLex = 0;
 		int literalCounter = 1;
@@ -46,6 +46,7 @@ namespace Lex {
 		int mainCounter = 0;
 		bool findDeclaration = false;
 		bool findType = false;
+		bool findProc = false;
 		int is_cycle = 0;
 
 		std::stack<std::string> functions;
@@ -92,6 +93,16 @@ namespace Lex {
 				LT::Add(lextable, entryLT);
 				findFunc = true;
 			}
+			else if (FST::execute(FST::FST(word[i], FST_PROCEDURE))) {
+				LT::Entry entryLT = WriteEntry(entryLT, LEX_PROCEDURE, LT_TI_NULLIDX, line);
+				LT::Add(lextable, entryLT);
+				findFunc = true;
+				findProc = true;
+			}
+			else if (FST::execute(FST::FST(word[i], FST_BREAK))) {
+				LT::Entry entryLT = WriteEntry(entryLT, LEX_BREAK, LT_TI_NULLIDX, line);
+				LT::Add(lextable, entryLT);
+			}
 			else if (FST::execute(FST::FST(word[i], FST_RET))) {
 				LT::Entry entryLT = WriteEntry(entryLT, LEX_RET, LT_TI_NULLIDX, line);
 				LT::Add(lextable, entryLT);
@@ -116,6 +127,16 @@ namespace Lex {
 			}
 			else if (FST::execute(FST::FST(word[i], FST_REPEAT))) {
 				LT::Entry entryLT = WriteEntry(entryLT, LEX_REPEAT, LT_TI_NULLIDX, line);
+				LT::Add(lextable, entryLT);
+				is_cycle++;
+			}
+			else if (FST::execute(FST::FST(word[i], FST_WHERE))) {
+				LT::Entry entryLT = WriteEntry(entryLT, LEX_WHERE, LT_TI_NULLIDX, line);
+				LT::Add(lextable, entryLT);
+				is_cycle++;
+			}
+			else if (FST::execute(FST::FST(word[i], FST_ELSE))) {
+				LT::Entry entryLT = WriteEntry(entryLT, LEX_ELSE, LT_TI_NULLIDX, line);
 				LT::Add(lextable, entryLT);
 				is_cycle++;
 			}
@@ -153,6 +174,8 @@ namespace Lex {
 				if (findParm)
 					entryIT.idtype = IT::P;
 				else if (findFunc) {
+					if (findProc)
+						entryIT.iddatatype = IT::PROC;
 					entryIT.idtype = IT::F;
 					functions.push(word[i]);
 				}
@@ -311,7 +334,7 @@ namespace Lex {
 				LT::Add(lextable, entryLT);
 			}
 			else if (FST::execute(FST::FST(word[i], FST_LEFTBRACE))) {
-				findType = findDeclaration = findFunc = findParm = false;
+				findType = findDeclaration = findFunc = findParm = findProc = false;
 				LT::Entry entryLT = WriteEntry(entryLT, LEX_LEFTBRACE, LT_TI_NULLIDX, line);
 				LT::Add(lextable, entryLT);
 			}
@@ -326,7 +349,7 @@ namespace Lex {
 				LT::Entry entryLT = WriteEntry(entryLT, LEX_LEFTTHESIS, LT_TI_NULLIDX, line);
 				entryLT.priority = 0;
 				LT::Add(lextable, entryLT);
-				if (findFunc)
+				if (findFunc || findProc)
 					findParm = true;
 			}
 			else if (FST::execute(FST::FST(word[i], FST_RIGHTTHESIS))) {

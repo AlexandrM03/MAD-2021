@@ -4,19 +4,9 @@ namespace Semantic {
 	bool Analyze(Lex::LEX lex, Log::LOG log) {
 		bool is_ok = true;
 		int j = 0;
+		std::vector<std::string> functions_id;
 		for (int i = 0; i < lex.lextable.size; i++) {
 			switch (lex.lextable.table[i].lexema) {
-			/*case LEX_OPERATOR:
-				if (lex.lextable.table[i].op == LT::ODIV) {
-					int j = i;
-					do {
-						j++;
-					} while (lex.lextable.table[j].lexema != LEX_LITERAL && lex.lextable.table[j].lexema != LEX_ID);
-
-					if (lex.idtable.table[lex.lextable.table[j].idxTI].value.vint == 0)
-						Log::WriteError(log, Error::geterrorin(311, lex.lextable.table[j].line, -1));
-				}*/
-				
 			case LEX_EQUAL:
 				j = i + 1;
 				for (j; lex.lextable.table[j].lexema != LEX_SEMICOLON; j++) {
@@ -39,7 +29,13 @@ namespace Semantic {
 					}
 				}
 				continue;
-			case LEX_FUNCTION: // Возврат выражения?
+			case LEX_FUNCTION:
+				if (std::count(functions_id.begin(), functions_id.end(), lex.idtable.table[lex.lextable.table[i + 1].idxTI].id)) {
+					Log::WriteError(log, Error::geterrorin(307, lex.lextable.table[i + 1].line, -1));
+					is_ok = false;
+				}
+				functions_id.push_back(lex.idtable.table[lex.lextable.table[i + 1].idxTI].id);
+
 				j = i + 1;
 				int type = lex.idtable.table[lex.lextable.table[j].idxTI].iddatatype;
 				int functions = -1;

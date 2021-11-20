@@ -12,7 +12,7 @@
 #define LEX_FUNCTION	'f'
 #define LEX_LET			'd'
 #define LEX_RET			'r'
-#define LEX_WRITE		'p'
+#define LEX_WRITE		'o'
 #define LEX_MAIN		'm'
 #define LEX_SEMICOLON	';'
 #define LEX_COMMA		','
@@ -26,7 +26,11 @@
 #define LEX_DIRSLASH	'v'
 #define LEX_OPERATOR	'v'
 #define LEX_EQUAL		'='
-#define LEX_REPEAT		'c'
+#define LEX_REPEAT		'u'
+#define LEX_PROCEDURE	'p'
+#define LEX_WHERE		'w'
+#define LEX_ELSE		'!'
+#define LEX_BREAK		'b'
 
 namespace LT {
 	enum operations {

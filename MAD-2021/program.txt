@@ -5,11 +5,18 @@ int function fi(string s)
    repeat (i < 10) {
       i = i + 1;
    }
-   bool bl;
+   let bool bl;
+   where (bl) {
+      write 'ok';
+   }
+   else {
+      write 'not ok';
+   }
    bl = false;
    bl = true;
    ret i;
-};
+}
+
 main
 {
    let string str;
@@ -18,6 +25,5 @@ main
    let string b;
    a = 1 + (fi(b));
    write 'контрольный       пример';
-   ret 0;
-};
+}
 #123123
