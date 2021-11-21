@@ -21,7 +21,13 @@ namespace Gen {
 
 		out << "includelib libucrt.lib\n";
 		out << "includelib kernel32.lib\n";
-		// Here will be libs
+		out << "includelib ../Debug/StaticLibrary.lib\n";
+		out << "ExitProcess PROTO :DWORD\n\n";
+
+		out << "EXTRN BREAKL: proc\n";
+		out << "EXTRN OutputInt: proc\n";
+		out << "EXTRN OutputStr: proc\n";
+		// Here will be other libs
 
 		out << "\n.stack 4096\n\n";
 	}
@@ -182,10 +188,12 @@ namespace Gen {
 							stk.pop();
 						}
 
-						if (flag_callfunc) {
+						/*if (flag_callfunc) {
 							out << "\tcall " << idT.table[lexT.table[i - countParm - 1].idxTI].id << "\n\tpush eax\n";
 							flag_callfunc = false;
-						}
+						}*/
+						out << "\tcall " << idT.table[lexT.table[i].idxTI].id << "\n\tpush eax\n";
+						flag_callfunc = false;
 						break;
 					}
 

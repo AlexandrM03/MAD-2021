@@ -30,7 +30,7 @@ int wmain(int argc, wchar_t* argv[]) {
             std::cout << "Semantic errors. Check log file to get more info";
             exit(-1);
         }
-        //Polish::startPolish(lex);
+        Polish::startPolish(lex);
         Lex::Synchronization(lex);
 
         IT::ShowTable(lex.idtable, *log.stream);

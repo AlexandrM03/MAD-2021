@@ -3,6 +3,8 @@
 includelib libucrt.lib
 includelib kernel32.lib
 includelib ../Debug/StaticLibrary.lib
+ExitProcess PROTO :DWORD
+
 EXTRN BREAKL: proc
 EXTRN OutputInt: proc
 EXTRN OutputStr: proc
@@ -13,24 +15,17 @@ EXTRN OutputStr: proc
 	L1 SDWORD 0
 	L2 SDWORD 10
 	L3 SDWORD 1
-	L4 BYTE "ok", 0
-	L5 BYTE "not ok", 0
-	L6 SDWORD 0
-	L7 SDWORD 1
-	L8 BYTE "123#123#123", 0
-	L9 BYTE "контрольный       пример", 0
+	L4 SDWORD 5
+	L5 SDWORD 20
 
 .data
 	buffer BYTE 256 dup(0)
 	fii SDWORD 0
-	fibl SDWORD 0
-	mainstr DWORD ?
-	maina SDWORD 0
-	mainb DWORD ?
+	mainout SDWORD 0
 
 .code
 
-fi PROC fis : DWORD
+fi PROC 
 	push L1
 	pop fii
 	mov eax, fii
@@ -39,33 +34,29 @@ fi PROC fis : DWORD
 	jmp cyclenext0
 cycle0:
 	push fii
+	push L3
 	pop eax
 	pop ebx
 	add eax, ebx
 	push eax
-	push L3
 	pop fii
 	mov eax, fii
 	cmp eax, L2
 	jl cycle0
 cyclenext0:
-	mov eax, fibl
-	cmp eax, 1
-	jz m0
-	jnz m1
+	mov eax, fii
+	cmp eax, L4
+	jl m0
+	jg m1
 	je m1
 m0:
-	push offset L4
-	call OutputStr
+	push L5
+	pop fii
 	jmp e0
 m1:
-	push offset L5
-	call OutputStr
+	push L4
+	pop fii
 e0:
-	push L6
-	pop fibl
-	push L7
-	pop fibl
 	push fii
 	jmp local0
 local0:
@@ -74,18 +65,11 @@ local0:
 fi ENDP
 
 main PROC
-	push offset L8
-	pop mainstr
-	push L3
-	pop eax
-	pop ebx
-	add eax, ebx
+	call fi
 	push eax
-	push fi
-	push mainb
-	pop maina
-	push offset L9
-	call OutputStr
+	pop mainout
+	push mainout
+	call OutputInt
 	call ExitProcess
 main ENDP
 end main

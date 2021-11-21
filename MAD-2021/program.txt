@@ -1,29 +1,33 @@
-int function fi(string s)
+int function fi()
 {
    let int i; # ќбъ€вление
    i = 0;
    repeat (i < 10) {
       i = i + 1;
    }
-   let bool bl;
-   where (bl) {
-      write 'ok';
+
+   where (i < 5) {
+      i = 20;
    }
    else {
-      write 'not ok';
+      i = 5;
    }
-   bl = false;
-   bl = true;
+   #	let bool bl;
+   #	where (bl) {
+   #	   write 'ok';
+   #	}
+   #	else {
+   #	   write 'not ok';
+   #	}
+   #	bl = false;
+   #	bl = true;
    ret i;
 }
 
 main
 {
-   let string str;
-   str = '123#123#123';
-   let int a;
-   let string b;
-   a = 1 + (fi(b));
-   write 'контрольный       пример';
+   let int out;
+   out = fi();
+   write out;
 }
 #123123
