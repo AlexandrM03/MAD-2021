@@ -10,6 +10,7 @@
 #include "MFST.h"
 #include "GRB.h"
 #include "SemAnalysis.h"
+#include "Generation.h"
 
 int wmain(int argc, wchar_t* argv[]) {
     setlocale(LC_ALL, "RUS");
@@ -35,6 +36,8 @@ int wmain(int argc, wchar_t* argv[]) {
         IT::ShowTable(lex.idtable, *log.stream);
         Log::WriteLexTableLog(lex.lextable, log);
         LT::ShowTable(lex.lextable, *log.stream);
+
+        Gen::Generator Gener(lex.lextable, lex.idtable, parm.out);
         Log::Close(log);
     }
     catch (Error::ERROR e) {

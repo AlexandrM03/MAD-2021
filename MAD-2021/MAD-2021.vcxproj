@@ -22,6 +22,7 @@
     <ClCompile Include="Div.cpp" />
     <ClCompile Include="Error.cpp" />
     <ClCompile Include="FST.cpp" />
+    <ClCompile Include="Generation.cpp" />
     <ClCompile Include="GRB.cpp" />
     <ClCompile Include="In.cpp" />
     <ClCompile Include="IT.cpp" />
@@ -39,6 +40,7 @@
     <ClInclude Include="Div.h" />
     <ClInclude Include="Error.h" />
     <ClInclude Include="FST.h" />
+    <ClInclude Include="Generation.h" />
     <ClInclude Include="Graphs.h" />
     <ClInclude Include="GRB.h" />
     <ClInclude Include="In.h" />
