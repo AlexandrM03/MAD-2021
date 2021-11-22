@@ -27,6 +27,10 @@ namespace Gen {
 		out << "EXTRN BREAKL: proc\n";
 		out << "EXTRN OutputInt: proc\n";
 		out << "EXTRN OutputStr: proc\n";
+		out << "EXTRN OutputIntLn: proc\n";
+		out << "EXTRN OutputStrLn: proc\n";
+		out << "EXTRN slen: proc\n";
+		out << "EXTRN scpy: proc\n";
 		// Here will be other libs
 
 		out << "\n.stack 4096\n\n";
@@ -388,8 +392,16 @@ namespace Gen {
 				}
 				break;
 
-			case LEX_BREAK:
-				out << "\tcall BREAKL\n";
+			case LEX_WRITELN:
+				if (idT.table[lexT.table[i + 1].idxTI].iddatatype == IT::INT || idT.table[lexT.table[i + 1].idxTI].iddatatype == IT::BOOL)
+					out << "\tpush " << idT.table[lexT.table[i + 1].idxTI].id << "\n\tcall OutputIntLn\n";
+				else {
+					if (idT.table[lexT.table[i + 1].idxTI].idtype == IT::L)
+						out << "\tpush offset ";
+					else
+						out << "\tpush ";
+					out << idT.table[lexT.table[i + 1].idxTI].id << "\n\tcall OutputStrLn\n";
+				}
 				break;
 			}
 		}

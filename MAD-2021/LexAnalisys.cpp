@@ -99,16 +99,16 @@ namespace Lex {
 				findFunc = true;
 				findProc = true;
 			}
-			else if (FST::execute(FST::FST(word[i], FST_BREAK))) {
-				LT::Entry entryLT = WriteEntry(entryLT, LEX_BREAK, LT_TI_NULLIDX, line);
-				LT::Add(lextable, entryLT);
-			}
 			else if (FST::execute(FST::FST(word[i], FST_RET))) {
 				LT::Entry entryLT = WriteEntry(entryLT, LEX_RET, LT_TI_NULLIDX, line);
 				LT::Add(lextable, entryLT);
 			}
 			else if (FST::execute(FST::FST(word[i], FST_WRITE))) {
 				LT::Entry entryLT = WriteEntry(entryLT, LEX_WRITE, LT_TI_NULLIDX, line);
+				LT::Add(lextable, entryLT);
+			}
+			else if (FST::execute(FST::FST(word[i], FST_WRITELN))) {
+				LT::Entry entryLT = WriteEntry(entryLT, LEX_WRITELN, LT_TI_NULLIDX, line);
 				LT::Add(lextable, entryLT);
 			}
 			else if (FST::execute(FST::FST(word[i], FST_MAIN))) {
@@ -170,44 +170,31 @@ namespace Lex {
 				LT::Entry entryLT = WriteEntry(entryLT, LEX_LITERAL, IT::IsId(idtable, word[i]), line);
 				LT::Add(lextable, entryLT);
 			}
-			else if (FST::execute(FST::FST(word[i], FST_ID))) {
-				if (findParm)
-					entryIT.idtype = IT::P;
-				else if (findFunc) {
-					if (findProc)
-						entryIT.iddatatype = IT::PROC;
+			else if (FST::execute(FST::FST(word[i], FST_SLEN))) {
+				if (int idx = IT::IsId(idtable, word[i]) == TI_NULLIDX) {
 					entryIT.idtype = IT::F;
-					functions.push(word[i]);
-				}
-				else {
-					entryIT.idtype = IT::V;
-					int idx = IT::IsId(idtable, word[i]);
-					if (idx != TI_NULLIDX) {
-						LT::Entry entryLT = WriteEntry(entryLT, LEX_ID, idx, line);
-						LT::Add(lextable, entryLT);
-						entryIT = { };
-						continue;
-					}
-					if (entryIT.iddatatype == IT::INT)
-						entryIT.value.vint = TI_INT_DEFAULT;
-					else if (entryIT.iddatatype == IT::STR) {
-						entryIT.value.vstr.len = 0;
-						memset(entryIT.value.vstr.str, TI_STR_DEFAULT, sizeof(char));
-					}
+					entryIT.iddatatype = IT::INT;
+					entryIT.idxFirstLE = indexLex;
+					strcpy(entryIT.id, word[i]);
+					IT::Add(idtable, entryIT);
+					entryIT = {};
 				}
 
-				entryIT.idxFirstLE = indexLex;
-				if (entryIT.idtype != IT::F && !functions.empty()) {
-					strcpy(bufprefix, functions.top().c_str());
-					word[i] = strcat(bufprefix, word[i]);
-				}
-				strcpy(entryIT.id, word[i]);
-				int idx = IT::IsId(idtable, word[i]);
-				if (idx == TI_NULLIDX)
-					IT::Add(idtable, entryIT);
 				LT::Entry entryLT = WriteEntry(entryLT, LEX_ID, IT::IsId(idtable, word[i]), line);
 				LT::Add(lextable, entryLT);
-				entryIT = { };
+			}
+			else if (FST::execute(FST::FST(word[i], FST_SCPY))) {
+				if (int idx = IT::IsId(idtable, word[i]) == TI_NULLIDX) {
+					entryIT.idtype = IT::F;
+					entryIT.iddatatype = IT::STR;
+					entryIT.idxFirstLE = indexLex;
+					strcpy(entryIT.id, word[i]);
+					IT::Add(idtable, entryIT);
+					entryIT = {};
+				}
+
+				LT::Entry entryLT = WriteEntry(entryLT, LEX_ID, IT::IsId(idtable, word[i]), line);
+				LT::Add(lextable, entryLT);
 			}
 			else if (FST::execute(FST::FST(word[i], FST_INTLIT))) {
 				int value = atoi((char*)word[i]);
@@ -271,6 +258,45 @@ namespace Lex {
 				}
 				LT::Entry entryLT = WriteEntry(entryLT, LEX_LITERAL, k, line);
 				LT::Add(lextable, entryLT);
+			}
+			else if (FST::execute(FST::FST(word[i], FST_ID))) {
+				if (findParm)
+					entryIT.idtype = IT::P;
+				else if (findFunc) {
+					if (findProc)
+						entryIT.iddatatype = IT::PROC;
+					entryIT.idtype = IT::F;
+					functions.push(word[i]);
+				}
+				else {
+					entryIT.idtype = IT::V;
+					int idx = IT::IsId(idtable, word[i]);
+					if (idx != TI_NULLIDX) {
+						LT::Entry entryLT = WriteEntry(entryLT, LEX_ID, idx, line);
+						LT::Add(lextable, entryLT);
+						entryIT = { };
+						continue;
+					}
+					if (entryIT.iddatatype == IT::INT)
+						entryIT.value.vint = TI_INT_DEFAULT;
+					else if (entryIT.iddatatype == IT::STR) {
+						entryIT.value.vstr.len = 0;
+						memset(entryIT.value.vstr.str, TI_STR_DEFAULT, sizeof(char));
+					}
+				}
+
+				entryIT.idxFirstLE = indexLex;
+				if (entryIT.idtype != IT::F && !functions.empty()) {
+					strcpy(bufprefix, functions.top().c_str());
+					word[i] = strcat(bufprefix, word[i]);
+				}
+				strcpy(entryIT.id, word[i]);
+				int idx = IT::IsId(idtable, word[i]);
+				if (idx == TI_NULLIDX)
+					IT::Add(idtable, entryIT);
+				LT::Entry entryLT = WriteEntry(entryLT, LEX_ID, IT::IsId(idtable, word[i]), line);
+				LT::Add(lextable, entryLT);
+				entryIT = { };
 			}
 			else if (FST::execute(FST::FST(word[i], FST_OPERATOR))) {
 				strcpy(entryIT.id, word[i]);

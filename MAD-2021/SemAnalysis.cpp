@@ -38,14 +38,9 @@ namespace Semantic {
 
 				j = i + 1;
 				int type = lex.idtable.table[lex.lextable.table[j].idxTI].iddatatype;
-				int functions = -1;
 				do {
 					j++;
-					if (lex.lextable.table[j].lexema == LEX_LEFTBRACE)
-						functions++;
-					else if (lex.lextable.table[j].lexema == LEX_BRACELET)
-						functions--;
-				} while ((lex.lextable.table[j].lexema != LEX_RET) || functions != 0);
+				} while ((lex.lextable.table[j].lexema != LEX_RET));
 				if (lex.idtable.table[lex.lextable.table[j + 1].idxTI].iddatatype != type) {
 					Log::WriteError(log, Error::geterrorin(314, lex.lextable.table[j].line, -1));
 					is_ok = false;

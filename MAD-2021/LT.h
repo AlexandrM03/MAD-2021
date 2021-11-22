@@ -30,7 +30,7 @@
 #define LEX_PROCEDURE	'p'
 #define LEX_WHERE		'w'
 #define LEX_ELSE		'!'
-#define LEX_BREAK		'b'
+#define LEX_WRITELN		'b'
 
 namespace LT {
 	enum operations {

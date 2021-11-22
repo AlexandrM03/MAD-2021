@@ -1,33 +1,19 @@
-int function fi()
+int function fac(int i) 
 {
-   let int i; # ќбъ€вление
-   i = 0;
-   repeat (i < 10) {
-      i = i + 1;
-   }
-
-   where (i < 5) {
-      i = 20;
+   where (i ~ 0) {
+      ret 1;
    }
    else {
-      i = 5;
-   }
-   #	let bool bl;
-   #	where (bl) {
-   #	   write 'ok';
-   #	}
-   #	else {
-   #	   write 'not ok';
-   #	}
-   #	bl = false;
-   #	bl = true;
-   ret i;
+      let int z = i - 1;
+      let int res = i * fac(z);
+      ret res;
+   }   
 }
 
 main
 {
-   let int out;
-   out = fi();
-   write out;
+   let int res = fac(6);
+   write '–езультат = ';
+   writeln res;
 }
 #123123
