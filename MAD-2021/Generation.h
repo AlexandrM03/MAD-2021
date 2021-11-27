@@ -10,9 +10,9 @@ namespace Gen {
 		IT::IdTable idT;
 		std::ofstream out;
 
-		Generator(LT::LexTable plexT, IT::IdTable pidT, wchar_t pout[]);
+		Generator(LT::LexTable plexT, IT::IdTable pidT, wchar_t pout[], std::stack<std::string> libs);
 
-		void Head();
+		void Head(std::stack<std::string> libs);
 		void Const();
 		void Data();
 		void Code();

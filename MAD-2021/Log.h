@@ -19,6 +19,6 @@ namespace Log {
 	void WriteParm(LOG log, Parm::PARM parm);
 	void WriteIn(LOG log, In::IN in);
 	void WriteError(LOG log, Error::ERROR error);
-	void WriteLexTableLog(LT::LexTable& lextable, LOG log);
+	void WriteLexTableLog(LT::LexTable& lextable, std::ostream& out);
 	void Close(LOG log);
 }

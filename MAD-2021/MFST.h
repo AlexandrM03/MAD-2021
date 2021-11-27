@@ -15,7 +15,7 @@ public:
 static int FST_TRACE_n = -1;
 static char rbuf[205], sbuf[205], lbuf[1024];
 
-#define MFST_TRACE_START	stream_out << "\n\n\t\tСинтактический анализ\n\n" << std::setw(4) << std::setfill(' ') << std::left << "Шаг" << ": "\
+#define MFST_TRACE_START	stream_out << "\n\n\t\tСинтаксический анализ\n\n" << std::setw(4) << std::setfill(' ') << std::left << "Шаг" << ": "\
 							<< std::setw(30) << std::left << "Правило"\
 							<< std::setw(30) << std::left << "Входная лента"\
 							<< std::setw(20) << std::left << "Стек"\

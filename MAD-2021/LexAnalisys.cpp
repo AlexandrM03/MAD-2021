@@ -18,7 +18,7 @@
 using namespace std;
 
 namespace Lex {
-	LEX LexAnaliz(Log::LOG log, In::IN in) {
+	LEX LexAnaliz(Log::LOG log, In::IN in, std::stack<std::string>& libs) {
 		LEX lex;
 		LT::LexTable lextable = LT::Create(LT_MAXSIZE);
 		IT::IdTable idtable = IT::Create(TI_MAXSIZE);
@@ -33,11 +33,6 @@ namespace Lex {
 			word = divideText(in.text, in.size);
 		} while (word == NULL);
 
-		/*for (int i = 0; word[i]; i++) {
-			cout << word[i];
-		}
-		cout << endl;*/
-
 		int indexLex = 0;
 		int literalCounter = 1;
 		int line = 1;
@@ -48,6 +43,9 @@ namespace Lex {
 		bool findType = false;
 		bool findProc = false;
 		int is_cycle = 0;
+
+		bool findMath = false;
+		bool findString = false;
 
 		std::stack<std::string> functions;
 		char* bufprefix = new char[10]{ "" };
@@ -63,8 +61,15 @@ namespace Lex {
 		for (int i = 0; word[i] != NULL; i++, indexLex++) {
 			bool findSameID = false;
 			position += strlen(word[i]);
-
-			if (FST::execute(FST::FST(word[i], FST_LET))) {
+			if (FST::execute(FST::FST(word[i], FST_MATH))) {
+				libs.push("math");
+				findMath = true;
+			}
+			else if (FST::execute(FST::FST(word[i], FST_STRINGLIB))) {
+				libs.push("string");
+				findString = true;
+			}
+			else if (FST::execute(FST::FST(word[i], FST_LET))) {
 				LT::Entry entryLT = WriteEntry(entryLT, LEX_LET, LT_TI_NULLIDX, line);
 				LT::Add(lextable, entryLT);
 				findDeclaration = true;
@@ -170,7 +175,7 @@ namespace Lex {
 				LT::Entry entryLT = WriteEntry(entryLT, LEX_LITERAL, IT::IsId(idtable, word[i]), line);
 				LT::Add(lextable, entryLT);
 			}
-			else if (FST::execute(FST::FST(word[i], FST_SLEN))) {
+			else if (FST::execute(FST::FST(word[i], FST_SLEN)) && findString) {
 				if (int idx = IT::IsId(idtable, word[i]) == TI_NULLIDX) {
 					entryIT.idtype = IT::F;
 					entryIT.iddatatype = IT::INT;
@@ -183,7 +188,7 @@ namespace Lex {
 				LT::Entry entryLT = WriteEntry(entryLT, LEX_ID, IT::IsId(idtable, word[i]), line);
 				LT::Add(lextable, entryLT);
 			}
-			else if (FST::execute(FST::FST(word[i], FST_SCPY))) {
+			else if (FST::execute(FST::FST(word[i], FST_SCPY)) && findString) {
 				if (int idx = IT::IsId(idtable, word[i]) == TI_NULLIDX) {
 					entryIT.idtype = IT::F;
 					entryIT.iddatatype = IT::STR;
@@ -196,8 +201,54 @@ namespace Lex {
 				LT::Entry entryLT = WriteEntry(entryLT, LEX_ID, IT::IsId(idtable, word[i]), line);
 				LT::Add(lextable, entryLT);
 			}
+			else if ((FST::execute(FST::FST(word[i], FST_POW)) || FST::execute(FST::FST(word[i], FST_RAND))) && findMath) {
+				if (int idx = IT::IsId(idtable, word[i]) == TI_NULLIDX) {
+					entryIT.idtype = IT::F;
+					entryIT.iddatatype = IT::INT;
+					entryIT.idxFirstLE = indexLex;
+					strcpy(entryIT.id, word[i]);
+					IT::Add(idtable, entryIT);
+					entryIT = {};
+				}
+
+				LT::Entry entryLT = WriteEntry(entryLT, LEX_ID, IT::IsId(idtable, word[i]), line);
+				LT::Add(lextable, entryLT);
+			}
 			else if (FST::execute(FST::FST(word[i], FST_INTLIT))) {
 				int value = atoi((char*)word[i]);
+				for (int k = 0; k < idtable.size; k++) {
+					if (idtable.table[k].value.vint == value && idtable.table[k].idtype == IT::L && idtable.table[k].iddatatype == IT::INT) {
+						LT::Entry entryLT = WriteEntry(entryLT, LEX_LITERAL, k, line);
+						LT::Add(lextable, entryLT);
+						findSameID = true;
+						break;
+					}
+				}
+
+				if (findSameID) continue;
+				entryIT.idtype = IT::L;
+				entryIT.iddatatype = IT::INT;
+				entryIT.value.vint = value;
+				entryIT.idxFirstLE = indexLex;
+				_itoa_s(literalCounter++, charclit, sizeof(char) * 10, 10);
+				strcpy(bufL, L);
+				word[i] = strcat(bufL, charclit);
+				strcpy(entryIT.id, word[i]);
+				IT::Add(idtable, entryIT);
+				entryIT = {};
+
+				LT::Entry entryLT = WriteEntry(entryLT, LEX_LITERAL, IT::IsId(idtable, word[i]), line);
+				LT::Add(lextable, entryLT);
+			}
+			else if (FST::execute(FST::FST(word[i], FST_INTLITHEX))) {
+				char* numBuf = new char;
+				int j = 0;
+				for (int k = 0; k < strlen(word[i]); k++, j++) {
+					numBuf[j] = word[i][k];
+				}
+				numBuf[j + 1] = '\0';
+				int value = strtol(numBuf, NULL, 16);
+
 				for (int k = 0; k < idtable.size; k++) {
 					if (idtable.table[k].value.vint == value && idtable.table[k].idtype == IT::L && idtable.table[k].iddatatype == IT::INT) {
 						LT::Entry entryLT = WriteEntry(entryLT, LEX_LITERAL, k, line);

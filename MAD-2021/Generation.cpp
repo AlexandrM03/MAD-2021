@@ -3,19 +3,19 @@
 using namespace std;
 
 namespace Gen {
-	Generator::Generator(LT::LexTable plexT, IT::IdTable pidT, wchar_t pout[])
+	Generator::Generator(LT::LexTable plexT, IT::IdTable pidT, wchar_t pout[], std::stack<std::string> libs)
 	{
 		lexT = plexT;
 		idT = pidT;
 		out = ofstream(pout, ios_base::out);
 
-		Head();
+		Head(libs);
 		Const();
 		Data();
 		Code();
 	}
 
-	void Generator::Head() {
+	void Generator::Head(std::stack<std::string> libs) {
 		out << ".586\n";
 		out << ".model flat, stdcall\n";
 
@@ -23,15 +23,24 @@ namespace Gen {
 		out << "includelib kernel32.lib\n";
 		out << "includelib ../Debug/StaticLibrary.lib\n";
 		out << "ExitProcess PROTO :DWORD\n\n";
+		
+		while (!libs.empty()) {
+			if (libs.top() == "math") {
+				out << "EXTRN mpow: proc\n";
+				out << "EXTRN mrand: proc\n";
+			}
+			else if (libs.top() == "string") {
+				out << "EXTRN slen: proc\n";
+				out << "EXTRN scpy: proc\n";
+			}
+			libs.pop();
+		}
 
 		out << "EXTRN BREAKL: proc\n";
 		out << "EXTRN OutputInt: proc\n";
 		out << "EXTRN OutputStr: proc\n";
 		out << "EXTRN OutputIntLn: proc\n";
 		out << "EXTRN OutputStrLn: proc\n";
-		out << "EXTRN slen: proc\n";
-		out << "EXTRN scpy: proc\n";
-		// Here will be other libs
 
 		out << "\n.stack 4096\n\n";
 	}
@@ -191,11 +200,6 @@ namespace Gen {
 							out << "\tpush " << stk.top() << "\n";
 							stk.pop();
 						}
-
-						/*if (flag_callfunc) {
-							out << "\tcall " << idT.table[lexT.table[i - countParm - 1].idxTI].id << "\n\tpush eax\n";
-							flag_callfunc = false;
-						}*/
 						out << "\tcall " << idT.table[lexT.table[i].idxTI].id << "\n\tpush eax\n";
 						flag_callfunc = false;
 						break;

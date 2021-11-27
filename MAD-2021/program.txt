@@ -1,19 +1,14 @@
-int function fac(int i) 
-{
-   where (i ~ 0) {
-      ret 1;
-   }
-   else {
-      let int z = i - 1;
-      let int res = i * fac(z);
-      ret res;
-   }   
-}
+$include[math]
+$include[string]
 
 main
 {
-   let int res = fac(6);
-   write 'Результат = ';
-   writeln res;
+   let int i = 5;
+   i = mpow(i, 3);
+   writeln i;
+   let int r = mrand(1, 5);
+   writeln r;
+   let string str = '1234567h#jknf';
+   let int len = slen(str);
+   write len;
 }
-#123123

@@ -27,6 +27,15 @@ namespace Parm {
 				wcscpy_s(parm.log, argv[i] + wcslen(PARM_LOG));
 				log_found = true;
 			}
+
+			if (!_wcsnicmp(argv[i], PARM_ID, wcslen(PARM_ID)))
+				parm.id = true;
+			if (!_wcsnicmp(argv[i], PARM_LEX, wcslen(PARM_LEX)))
+				parm.lex = true;
+			if (!_wcsnicmp(argv[i], PARM_RULES, wcslen(PARM_RULES)))
+				parm.rules = true;
+			if (!_wcsnicmp(argv[i], PARM_TOKENS, wcslen(PARM_TOKENS)))
+				parm.tokens = true;
 		}
 
 		if (!in_found) throw ERROR_THROW(100);

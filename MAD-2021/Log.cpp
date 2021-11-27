@@ -85,13 +85,13 @@ namespace Log {
 		}
 	}
 
-	void WriteLexTableLog(LT::LexTable& lextable, LOG log) {
+	void WriteLexTableLog(LT::LexTable& lextable, std::ostream& out) {
 		int i;
-		*log.stream << "\n\t\tТаблица лексем" << std::endl;
-		*log.stream << std::setfill('-') << std::setw(90) << '-' << std::endl;
-		*log.stream << "   #" << " | " << "Лексема" << std::setfill(' ') << std::setw(20) << ' ' << std::left 
+		out << "\n\t\tТаблица лексем" << std::endl;
+		out << std::setfill('-') << std::setw(90) << '-' << std::endl;
+		out << "   #" << " | " << "Лексема" << std::setfill(' ') << std::setw(20) << ' ' << std::left 
 			<< " | " << "Строка" << std::setw(21) << ' ' << std::left << " | " << "Индекс в ТИ" << std::endl;
-		*log.stream << std::setfill('-') << std::setw(90) << '-' << std::endl;
+		out << std::setfill('-') << std::setw(90) << '-' << std::endl;
 		for (i = 0; i < lextable.size; i++) {
 			char op = ' ';
 			switch (lextable.table[i].op) {
@@ -111,17 +111,17 @@ namespace Log {
 				op = '%';
 				break;
 			}
-			*log.stream << std::setfill('0') << std::setw(4) << std::right << i << " | " << std::setfill(' ') 
+			out << std::setfill('0') << std::setw(4) << std::right << i << " | " << std::setfill(' ')
 				<< std::setw(24) << std::left << lextable.table[i].lexema << op << "   | " << std::setw(24) << std::left
 				<< lextable.table[i].line << "    | ";
 			if (lextable.table[i].idxTI == LT_TI_NULLIDX)
-				*log.stream << "-" << std::endl;
+				out << "-" << std::endl;
 			else
-				*log.stream << std::setw(23) << lextable.table[i].idxTI << std::endl;
+				out << std::setw(23) << lextable.table[i].idxTI << std::endl;
 		}
-		*log.stream << std::setfill('-') << std::setw(90) << '-' << std::endl;
-		*log.stream << "\tВсего лексем: " << i << std::endl;
-		*log.stream << std::setfill('-') << std::setw(90) << '-' << std::endl;
+		out << std::setfill('-') << std::setw(90) << '-' << std::endl;
+		out << "\tВсего лексем: " << i << std::endl;
+		out << std::setfill('-') << std::setw(90) << '-' << std::endl;
 	}
 
 	void Close(LOG log) {

@@ -35,7 +35,19 @@ extern "C" {
 		return strlen(ptr);
 	}
 
-	void scpy(char* s1, char* s2) {
-		strcpy(s1, s2);
+	char* scpy(char* s1, char* s2) {
+		if (!s1 || !s2) {
+			std::cout << "ERROR: null string" << std::endl;
+			ExitProcess(0);
+		}
+		return s2;
+	}
+
+	int mpow(int num, int exp) {
+		return pow(num, exp);
+	}
+
+	int mrand(int min, int max) {
+		return rand() % (max - min) + min;
 	}
 }

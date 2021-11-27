@@ -132,6 +132,20 @@
 	FST::RELATION('7', 1), FST::RELATION('8', 1), FST::RELATION('9', 1), FST::RELATION('0', 1)),\
 	FST::NODE()
 
+#define FST_INTLITHEX 4,	\
+	FST::NODE(1, FST::RELATION('0', 1)),\
+	FST::NODE(1, FST::RELATION('x', 2)),\
+	FST::NODE(32,	\
+	FST::RELATION('1', 2), FST::RELATION('2', 2), FST::RELATION('3', 2), FST::RELATION('4', 2), FST::RELATION('5', 2), FST::RELATION('6', 2),\
+	FST::RELATION('7', 2), FST::RELATION('8', 2), FST::RELATION('9', 2), FST::RELATION('0', 2), FST::RELATION('a', 2), FST::RELATION('b', 2), \
+	FST::RELATION('c', 2), FST::RELATION('d', 2), FST::RELATION('e', 2), FST::RELATION('f', 2), \
+	\
+	FST::RELATION('1', 3), FST::RELATION('2', 3), FST::RELATION('3', 3), FST::RELATION('4', 3), FST::RELATION('5', 3), FST::RELATION('6', 3),\
+	FST::RELATION('7', 3), FST::RELATION('8', 3), FST::RELATION('9', 3), FST::RELATION('0', 3), FST::RELATION('a', 3), FST::RELATION('b', 3), \
+	FST::RELATION('c', 3), FST::RELATION('d', 3), FST::RELATION('e', 3), FST::RELATION('f', 3)), \
+	\
+	FST::NODE()
+
 #define FST_TRUE 5,	\
 	FST::NODE(1, FST::RELATION('t', 1)),\
 	FST::NODE(1, FST::RELATION('r', 2)),\
@@ -242,6 +256,25 @@
 	FST::NODE(1, FST::RELATION('=', 1)),\
 	FST::NODE()
 
+#define FST_STRINGLIB 17,	\
+	FST::NODE(1, FST::RELATION('$', 1)),\
+	FST::NODE(1, FST::RELATION('i', 2)),\
+	FST::NODE(1, FST::RELATION('n', 3)),\
+	FST::NODE(1, FST::RELATION('c', 4)),\
+	FST::NODE(1, FST::RELATION('l', 5)),\
+	FST::NODE(1, FST::RELATION('u', 6)),\
+	FST::NODE(1, FST::RELATION('d', 7)),\
+	FST::NODE(1, FST::RELATION('e', 8)),\
+	FST::NODE(1, FST::RELATION('[', 9)),\
+	FST::NODE(1, FST::RELATION('s', 10)),\
+	FST::NODE(1, FST::RELATION('t', 11)),\
+	FST::NODE(1, FST::RELATION('r', 12)),\
+	FST::NODE(1, FST::RELATION('i', 13)),\
+	FST::NODE(1, FST::RELATION('n', 14)),\
+	FST::NODE(1, FST::RELATION('g', 15)),\
+	FST::NODE(1, FST::RELATION(']', 16)),\
+	FST::NODE()
+
 #define FST_SLEN 5,	\
 	FST::NODE(1, FST::RELATION('s', 1)),\
 	FST::NODE(1, FST::RELATION('l', 2)),\
@@ -254,4 +287,37 @@
 	FST::NODE(1, FST::RELATION('c', 2)),\
 	FST::NODE(1, FST::RELATION('p', 3)),\
 	FST::NODE(1, FST::RELATION('y', 4)),\
+	FST::NODE()
+
+
+#define FST_MATH 15,	\
+	FST::NODE(1, FST::RELATION('$', 1)),\
+	FST::NODE(1, FST::RELATION('i', 2)),\
+	FST::NODE(1, FST::RELATION('n', 3)),\
+	FST::NODE(1, FST::RELATION('c', 4)),\
+	FST::NODE(1, FST::RELATION('l', 5)),\
+	FST::NODE(1, FST::RELATION('u', 6)),\
+	FST::NODE(1, FST::RELATION('d', 7)),\
+	FST::NODE(1, FST::RELATION('e', 8)),\
+	FST::NODE(1, FST::RELATION('[', 9)),\
+	FST::NODE(1, FST::RELATION('m', 10)),\
+	FST::NODE(1, FST::RELATION('a', 11)),\
+	FST::NODE(1, FST::RELATION('t', 12)),\
+	FST::NODE(1, FST::RELATION('h', 13)),\
+	FST::NODE(1, FST::RELATION(']', 14)),\
+	FST::NODE()
+
+#define FST_POW 5,	\
+	FST::NODE(1, FST::RELATION('m', 1)),\
+	FST::NODE(1, FST::RELATION('p', 2)),\
+	FST::NODE(1, FST::RELATION('o', 3)),\
+	FST::NODE(1, FST::RELATION('w', 4)),\
+	FST::NODE()
+
+#define FST_RAND 6,	\
+	FST::NODE(1, FST::RELATION('m', 1)),\
+	FST::NODE(1, FST::RELATION('r', 2)),\
+	FST::NODE(1, FST::RELATION('a', 3)),\
+	FST::NODE(1, FST::RELATION('n', 4)),\
+	FST::NODE(1, FST::RELATION('d', 5)),\
 	FST::NODE()
