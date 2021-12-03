@@ -19,9 +19,11 @@ EXTRN OutputStrLn: proc
 
 .const
 	L1 SDWORD 5
-	L2 SDWORD 3
-	L3 SDWORD 1
-	L4 BYTE "1234567h#jknf", 0
+	L2 BYTE "5^3 = ", 0
+	L3 BYTE "Случайное число: ", 0
+	L4 SDWORD 1
+	L5 BYTE "1234567h#jknf", 0
+	L6 BYTE "Длина строки: ", 0
 
 .data
 	buffer BYTE 256 dup(0)
@@ -35,29 +37,25 @@ EXTRN OutputStrLn: proc
 main PROC
 	push L1
 	pop maini
-	push maini
-	push L2
-	pop edx
-	pop edx
-	push L2
-	push maini
-	call mpow
-	push eax
 	pop maini
+	push offset L2
+	call OutputStr
 	push maini
 	call OutputIntLn
-	push L3
+	push offset L3
+	call OutputStr
+	push L4
 	push L1
 	pop edx
 	pop edx
 	push L1
-	push L3
+	push L4
 	call mrand
 	push eax
 	pop mainr
 	push mainr
 	call OutputIntLn
-	push offset L4
+	push offset L5
 	pop mainstr
 	push mainstr
 	pop edx
@@ -65,6 +63,8 @@ main PROC
 	call slen
 	push eax
 	pop mainlen
+	push offset L6
+	call OutputStr
 	push mainlen
 	call OutputInt
 	call ExitProcess

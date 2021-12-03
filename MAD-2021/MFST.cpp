@@ -227,7 +227,10 @@ namespace MFST {
 
 	void check_syntax(Lex::LEX lex, Log::LOG log, std::ostream& stream_out) {
 		MFST::Mfst mfst(lex.lextable, GRB::getGreibach());
-		mfst.start(stream_out);
+		if (!mfst.start(stream_out)) {
+			std::cout << "Syntax errors. Check log file to get more info";
+			exit(-1);
+		}
 		mfst.savededucation();
 		mfst.printrules(stream_out);
 	}
