@@ -1,0 +1,9 @@
+int function fi(int a, int b) 
+{
+   ret 0;
+}
+
+main 
+{
+   let int i = fi(1, );
+}

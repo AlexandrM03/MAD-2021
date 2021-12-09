@@ -224,7 +224,7 @@ namespace Gen {
 					}
 				}
 
-				out << "\tcall " << idT.table[lexT.table[i - countParm - 1].idxTI].id << "\n";
+				out << "\tcall " << idT.table[lexT.table[i].idxTI].id << "\n";
 				break;
 
 			case LEX_RET:

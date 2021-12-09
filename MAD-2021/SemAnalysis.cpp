@@ -20,7 +20,7 @@ namespace Semantic {
 						continue;
 
 					case LEX_LEFTTHESIS:
-						if (lex.idtable.table[lex.lextable.table[j - 1].idxTI].idtype == IT::F) {
+						if (lex.lextable.table[j - 1].lexema != LEX_OPERATOR && lex.lextable.table[j - 1].lexema != LEX_LEFTTHESIS) {
 							do {
 								j++;
 							} while (lex.lextable.table[j].lexema != LEX_RIGHTTHESIS);
