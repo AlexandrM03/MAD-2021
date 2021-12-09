@@ -161,8 +161,9 @@ fac ENDP
 main PROC
 	push L8
 	pop maini
+	push maini
 	pop edx
-	push L8
+	push maini
 	call iszero
 	push eax
 	pop mainis

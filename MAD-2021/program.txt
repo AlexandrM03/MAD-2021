@@ -44,7 +44,7 @@ main
 {
    #Проверка на 0
    let int i = 5;
-   let bool is = iszero(n);
+   let bool is = iszero(i);
    write i;
    write ' = 0? : ';
    where (is) 
