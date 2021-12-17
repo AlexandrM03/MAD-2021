@@ -249,7 +249,7 @@ namespace Gen {
 						out << "theend:\n";
 						flag_ret = false;
 					}
-					out << "\tcall ExitProcess\nmain ENDP\nend main";
+					out << "\tpush 0\n\tcall ExitProcess\nmain ENDP\nend main";
 				}
 				if (flag_func && !flag_then && !flag_else && !flag_cycle) {
 					if (flag_ret) {
