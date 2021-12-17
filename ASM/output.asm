@@ -27,44 +27,36 @@ EXTRN OutputStrLn: proc
 	L7 BYTE " ", 0
 	L8 SDWORD 5
 	L9 BYTE " = 0? : ", 0
-	L10 BYTE "true", 0
-	L11 BYTE "false", 0
-	L12 SDWORD 10
-	L13 BYTE "Случайное число от 1 до 10: ", 0
-	L14 BYTE "Александр", 0
-	L15 BYTE "Артем", 0
-	L16 BYTE ", длина = ", 0
-	L17 SDWORD 3
-	L18 BYTE "5^3 = ", 0
-	L19 SDWORD 6
-	L20 BYTE "6! = ", 0
-	L21 BYTE "0xfff = ", 0
-	L22 SDWORD 4095
-	L23 BYTE "0x14de = ", 0
-	L24 SDWORD 5342
-	L25 BYTE "0x2ea = ", 0
-	L26 SDWORD 746
-	L27 SDWORD 4
-	L28 SDWORD 14
-	L29 SDWORD 7
+	L10 SDWORD 10
+	L11 BYTE "Случайное число от 1 до 10: ", 0
+	L12 BYTE "Александр", 0
+	L13 BYTE "Артем", 0
+	L14 BYTE ", длина = ", 0
+	L15 BYTE "5^3 = ", 0
+	L16 SDWORD 3
+	L17 BYTE "6! = ", 0
+	L18 SDWORD 6
+	L19 BYTE "0xfff = ", 0
+	L20 SDWORD 4095
+	L21 BYTE "0x14de = ", 0
+	L22 SDWORD 5342
+	L23 BYTE "0x2ea = ", 0
+	L24 SDWORD 746
+	L25 SDWORD 4
+	L26 SDWORD 14
+	L27 SDWORD 7
 
 .data
 	buffer BYTE 256 dup(0)
 	counti SDWORD 0
 	facz SDWORD 0
-	facres SDWORD 0
 	maini SDWORD 0
-	mainis SDWORD 0
-	mainr SDWORD 0
 	mainstr1 DWORD ?
 	mainstr2 DWORD ?
 	mainlen SDWORD 0
-	mainpow SDWORD 0
-	mainres SDWORD 0
 	maina SDWORD 0
 	mainb SDWORD 0
 	mainc SDWORD 0
-	mainexpr SDWORD 0
 
 .code
 
@@ -75,11 +67,11 @@ iszero PROC iszeron : SDWORD
 	jnz m1
 	je m1
 m0:
-	push 1
+	push L2
 	jmp local0
 	jmp e0
 m1:
-	push 0
+	push L3
 	jmp local0
 e0:
 local0:
@@ -91,10 +83,13 @@ count PROC countn : SDWORD
 	push L4
 	pop counti
 	push offset L5
+
 	call OutputStr
 	push countn
+
 	call OutputInt
 	push offset L6
+
 	call OutputStrLn
 	mov eax, counti
 	cmp eax, countn
@@ -102,8 +97,10 @@ count PROC countn : SDWORD
 	jmp cyclenext0
 cycle0:
 	push counti
+
 	call OutputInt
 	push offset L7
+
 	call OutputStr
 	push counti
 	push L4
@@ -117,6 +114,7 @@ cycle0:
 	jl cycle0
 cyclenext0:
 	push counti
+
 	call OutputIntLn
 	ret
 count ENDP
@@ -128,7 +126,7 @@ fac PROC faci : SDWORD
 	jnz m3
 	je m3
 m2:
-	push 1
+	push L4
 	jmp local1
 	jmp e1
 m3:
@@ -149,8 +147,6 @@ m3:
 	pop ebx
 	mul ebx
 	push eax
-	pop facres
-	push facres
 	jmp local1
 e1:
 local1:
@@ -162,52 +158,45 @@ main PROC
 	push L8
 	pop maini
 	push maini
+
+	call OutputInt
+	push offset L9
+
+	call OutputStr
+	push maini
 	pop edx
 	push maini
 	call iszero
 	push eax
-	pop mainis
-	push maini
-	call OutputInt
-	push offset L9
-	call OutputStr
-	mov eax, mainis
-	cmp eax, 1
-	jz m4
-	jnz m5
-	je m5
-m4:
-	push offset L10
-	call OutputStrLn
-	jmp e2
-m5:
-	push offset L11
-	call OutputStrLn
-e2:
+
+	call OutputIntLn
 	push offset L7
+
 	call OutputStrLn
-	push L12
+	push L10
 	call count
 	push offset L7
+
 	call OutputStrLn
+	push offset L11
+
+	call OutputStr
 	push L4
-	push L12
+	push L10
 	pop edx
 	pop edx
-	push L12
+	push L10
 	push L4
 	call mrand
 	push eax
-	pop mainr
-	push offset L13
-	call OutputStr
-	push mainr
+
 	call OutputIntLn
 	push offset L7
+
 	call OutputStrLn
-	push offset L14
+	push offset L12
 	pop mainstr1
-	push offset L15
+	push offset L13
 	pop mainstr2
 	push mainstr1
 	push mainstr2
@@ -219,6 +208,10 @@ e2:
 	push eax
 	pop mainstr1
 	push mainstr1
+
+	call OutputStr
+	push offset L14
+
 	call OutputStr
 	push mainstr1
 	pop edx
@@ -226,58 +219,67 @@ e2:
 	call slen
 	push eax
 	pop mainlen
-	push offset L16
-	call OutputStr
 	push mainlen
+
 	call OutputIntLn
 	push offset L7
+
 	call OutputStrLn
+	push offset L15
+
+	call OutputStr
 	push L8
-	push L17
+	push L16
 	pop edx
 	pop edx
-	push L17
+	push L16
 	push L8
 	call mpow
 	push eax
-	pop mainpow
-	push offset L18
-	call OutputStr
-	push mainpow
+
 	call OutputIntLn
 	push offset L7
+
 	call OutputStrLn
-	push L19
+	push offset L17
+
+	call OutputStr
+	push L18
 	pop edx
-	push L19
+	push L18
 	call fac
 	push eax
-	pop mainres
-	push offset L20
-	call OutputStr
-	push mainres
+
 	call OutputIntLn
 	push offset L7
+
 	call OutputStrLn
+	push offset L19
+
+	call OutputStr
+	push L20
+
+	call OutputIntLn
 	push offset L21
+
 	call OutputStr
 	push L22
+
 	call OutputIntLn
 	push offset L23
+
 	call OutputStr
 	push L24
-	call OutputIntLn
-	push offset L25
-	call OutputStr
-	push L26
+
 	call OutputIntLn
 	push offset L7
+
 	call OutputStrLn
-	push L27
+	push L25
 	pop maina
-	push L19
+	push L18
 	pop mainb
-	push L28
+	push L26
 	pop mainc
 	push maina
 	push mainb
@@ -290,7 +292,7 @@ e2:
 	pop ebx
 	add eax, ebx
 	push eax
-	push L29
+	push L27
 	pop ebx
 	pop eax
 	cdq
@@ -311,8 +313,7 @@ e2:
 	pop eax
 	sub eax, ebx
 	push eax
-	pop mainexpr
-	push mainexpr
+
 	call OutputIntLn
 	push 0
 	call ExitProcess

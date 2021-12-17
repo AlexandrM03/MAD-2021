@@ -107,7 +107,7 @@ namespace Polish {
 
 	void startPolish(Lex::LEX& lex) {
 		for (int i = 0; i < lex.lextable.size; i++) {
-			if (lex.lextable.table[i].lexema == '=') {
+			if (lex.lextable.table[i].lexema == '=' || lex.lextable.table[i].lexema == LEX_WRITE || lex.lextable.table[i].lexema == LEX_WRITELN || lex.lextable.table[i].lexema == LEX_RET) {
 				polishNotation(i + 1, lex);
 			}
 			else if (lex.lextable.table[i].lexema == LEX_ID && lex.idtable.table[lex.lextable.table[i].idxTI].iddatatype == IT::PROC &&

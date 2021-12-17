@@ -1,0 +1,12 @@
+main
+{ 
+   let int i = 1 + 2;
+   writeln 1 + 2;
+}
+
+
+
+
+
+
+

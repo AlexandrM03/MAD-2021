@@ -55,8 +55,8 @@ namespace GRB {
 			Rule::Chain(8, TS('u'), TS('('), NS('R'), TS(')'), TS('{'), NS('X'), TS('}'), NS('N')),
 			Rule::Chain(8, TS('w'), TS('('), NS('R'), TS(')'), TS('{'), NS('X'), TS('}'), NS('N')),
 			Rule::Chain(12, TS('w'), TS('('), NS('R'), TS(')'), TS('{'), NS('X'), TS('}'), TS('!'), TS('{'), NS('X'), TS('}'), NS('N')),
-			Rule::Chain(4, TS('o'), NS('I'), TS(';'), NS('N')),
-			Rule::Chain(4, TS('b'), NS('I'), TS(';'), NS('N')),
+			Rule::Chain(4, TS('o'), NS('E'), TS(';'), NS('N')),
+			Rule::Chain(4, TS('b'), NS('E'), TS(';'), NS('N')),
 			Rule::Chain(4, TS('r'), NS('E'), TS(';'), NS('N')),
 			Rule::Chain(4, TS('i'), NS('K'), TS(';'), NS('N')),
 
@@ -66,8 +66,8 @@ namespace GRB {
 			Rule::Chain(7, TS('u'), TS('('), NS('R'), TS(')'), TS('{'), NS('X'), TS('}')),
 			Rule::Chain(7, TS('w'), TS('('), NS('R'), TS(')'), TS('{'), NS('X'), TS('}')),
 			Rule::Chain(11, TS('w'), TS('('), NS('R'), TS(')'), TS('{'), NS('X'), TS('}'), TS('!'), TS('{'), NS('X'), TS('}')),
-			Rule::Chain(3, TS('o'), NS('I'), TS(';')),
-			Rule::Chain(3, TS('b'), NS('I'), TS(';')),
+			Rule::Chain(3, TS('o'), NS('E'), TS(';')),
+			Rule::Chain(3, TS('b'), NS('E'), TS(';')),
 			Rule::Chain(3, TS('r'), NS('E'), TS(';')),
 			Rule::Chain(3, TS('i'), NS('K'), TS(';'))
 		),

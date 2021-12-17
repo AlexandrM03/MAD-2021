@@ -1,6 +1,79 @@
 #include "Generation.h"
 
 using namespace std;
+#define EXPR while (lexT.table[i].lexema != LEX_SEMICOLON) {																	 \
+	switch (lexT.table[i].lexema) {																								 \
+	case LEX_ID:																												 \
+	case LEX_LITERAL:																											 \
+		if (idT.table[lexT.table[i].idxTI].idtype == IT::F)																		 \
+			flag_callfunc = true;																								 \
+		if (idT.table[lexT.table[i].idxTI].iddatatype == IT::INT || idT.table[lexT.table[i].idxTI].iddatatype == IT::BOOL) {	 \
+			out << "\tpush " << idT.table[lexT.table[i].idxTI].id << "\n";														 \
+			stk.push(idT.table[lexT.table[i].idxTI].id);																		 \
+			break;																												 \
+		}																														 \
+		if (idT.table[lexT.table[i].idxTI].iddatatype == IT::STR) {																 \
+			char* s;																											 \
+			if (idT.table[lexT.table[i].idxTI].idtype == IT::L) {																 \
+				out << "\tpush offset " << idT.table[lexT.table[i].idxTI].id << "\n";											 \
+				s = new char[8]{ "offset " };																					 \
+			}																													 \
+			else {																												 \
+				out << "\tpush " << idT.table[lexT.table[i].idxTI].id << "\n";													 \
+				s = new char[1]{ "" };																							 \
+			}																													 \
+																																 \
+			size_t len1 = strlen((char*)s);																						 \
+			size_t len2 = strlen((char*)idT.table[lexT.table[i].idxTI].id);														 \
+			char* result = (char*)malloc(len1 + len2 + 1);																		 \
+			memcpy(result, s, len1);																							 \
+			memcpy(result + len1, (char*)idT.table[lexT.table[i].idxTI].id, len2 + 1);											 \
+			stk.push(result);																									 \
+			break;																												 \
+		}																														 \
+																																 \
+	case LEX_OPERATOR:																											 \
+		switch (lexT.table[i].op) {																								 \
+		case LT::OMUL:																											 \
+			out << "\tpop eax\n\tpop ebx\n";																					 \
+			out << "\tmul ebx\n\tpush eax\n";																					 \
+			break;																												 \
+		case LT::OPLUS:																											 \
+			out << "\tpop eax\n\tpop ebx\n";																					 \
+			out << "\tadd eax, ebx\n\tpush eax\n";																				 \
+			break;																												 \
+		case LT::OMINUS:																										 \
+			out << "\tpop ebx\n\tpop eax\n";																					 \
+			out << "\tsub eax, ebx\n\tpush eax\n";																				 \
+			break;																												 \
+		case LT::ODIV:																											 \
+			out << "\tpop ebx\n\tpop eax\n";																					 \
+			out << "\tcdq\n\tidiv ebx\n\tpush eax\n";																			 \
+			break;																												 \
+		case LT::OMOD:																											 \
+			out << "\tpop ebx\n\tpop eax\n";																					 \
+			out << "\tcdq\n\tidiv ebx\n\tpush edx\n";																			 \
+			break;																												 \
+		}																														 \
+		break;																													 \
+																																 \
+	case '@':																													 \
+		countParm = (char)lexT.table[i + 1].lexema - '0';																		 \
+																																 \
+		for (int j = 1; j <= countParm; j++)																					 \
+			out << "\tpop edx\n";																								 \
+																																 \
+		for (int j = 1; j <= countParm; j++) {																					 \
+			out << "\tpush " << stk.top() << "\n";																				 \
+			stk.pop();																											 \
+		}																														 \
+		out << "\tcall " << idT.table[lexT.table[i].idxTI].id << "\n\tpush eax\n";												 \
+		flag_callfunc = false;																									 \
+		break;																													 \
+	}																															 \
+																																 \
+	i++;																														 \
+	}																															 \
 
 namespace Gen {
 	Generator::Generator(LT::LexTable plexT, IT::IdTable pidT, wchar_t pout[], std::stack<std::string> libs)
@@ -97,6 +170,7 @@ namespace Gen {
 			flag_cycle = false;
 
 		int result_position;
+		int j;
 
 		out << "\n.code\n\n";
 		for (int i = 0; i < lexT.size; i++) {
@@ -134,80 +208,7 @@ namespace Gen {
 
 			case LEX_EQUAL:
 				result_position = i - 1;
-				while (lexT.table[i].lexema != LEX_SEMICOLON) {
-					switch (lexT.table[i].lexema) {
-					case LEX_ID:
-					case LEX_LITERAL:
-						if (idT.table[lexT.table[i].idxTI].idtype == IT::F)
-							flag_callfunc = true;
-						if (idT.table[lexT.table[i].idxTI].iddatatype == IT::INT || idT.table[lexT.table[i].idxTI].iddatatype == IT::BOOL) {
-							out << "\tpush " << idT.table[lexT.table[i].idxTI].id << "\n";
-							stk.push(idT.table[lexT.table[i].idxTI].id);
-							break;
-						}
-						if (idT.table[lexT.table[i].idxTI].iddatatype == IT::STR) {
-							char* s;
-							if (idT.table[lexT.table[i].idxTI].idtype == IT::L) {
-								out << "\tpush offset " << idT.table[lexT.table[i].idxTI].id << "\n";
-								s = new char[8]{ "offset " };
-							}
-							else {
-								out << "\tpush " << idT.table[lexT.table[i].idxTI].id << "\n";
-								s = new char[1]{ "" };
-							}
-
-							size_t len1 = strlen((char*)s);
-							size_t len2 = strlen((char*)idT.table[lexT.table[i].idxTI].id);
-							char* result = (char*)malloc(len1 + len2 + 1);
-							memcpy(result, s, len1);
-							memcpy(result + len1, (char*)idT.table[lexT.table[i].idxTI].id, len2 + 1);
-							stk.push(result);
-							break;
-						}
-
-					case LEX_OPERATOR:
-						switch (lexT.table[i].op) {
-						case LT::OMUL:
-							out << "\tpop eax\n\tpop ebx\n";
-							out << "\tmul ebx\n\tpush eax\n";
-							break;
-						case LT::OPLUS:
-							out << "\tpop eax\n\tpop ebx\n";
-							out << "\tadd eax, ebx\n\tpush eax\n";
-							break;
-						case LT::OMINUS:
-							out << "\tpop ebx\n\tpop eax\n";
-							out << "\tsub eax, ebx\n\tpush eax\n";
-							break;
-						case LT::ODIV:
-							out << "\tpop ebx\n\tpop eax\n";
-							out << "\tcdq\n\tidiv ebx\n\tpush eax\n";
-							break;
-						case LT::OMOD:
-							out << "\tpop ebx\n\tpop eax\n";
-							out << "\tcdq\n\tidiv ebx\n\tpush edx\n";
-							break;
-						}
-						break;
-
-					case '@':
-						countParm = (char)lexT.table[i + 1].lexema - '0';
-
-						for (int j = 1; j <= countParm; j++)
-							out << "\tpop edx\n";
-
-						for (int j = 1; j <= countParm; j++) {
-							out << "\tpush " << stk.top() << "\n";
-							stk.pop();
-						}
-						out << "\tcall " << idT.table[lexT.table[i].idxTI].id << "\n\tpush eax\n";
-						flag_callfunc = false;
-						break;
-					}
-
-					i++;
-				}
-
+				EXPR
 				out << "\tpop " << idT.table[lexT.table[result_position].idxTI].id << "\n";
 				break;
 
@@ -228,11 +229,7 @@ namespace Gen {
 				break;
 
 			case LEX_RET:
-				out << "\tpush ";
-				if (idT.table[lexT.table[i + 1].idxTI].idtype == IT::L)
-					out << idT.table[lexT.table[i + 1].idxTI].value.vint << "\n";
-				else
-					out << idT.table[lexT.table[i + 1].idxTI].id << "\n";
+				EXPR
 				if (flag_func) {
 					out << "\tjmp local" << num_of_ret << "\n";
 					flag_ret = true;
@@ -385,27 +382,25 @@ namespace Gen {
 				break;
 
 			case LEX_WRITE:
-				if (idT.table[lexT.table[i + 1].idxTI].iddatatype == IT::INT || idT.table[lexT.table[i + 1].idxTI].iddatatype == IT::BOOL)
-					out << "\tpush " << idT.table[lexT.table[i + 1].idxTI].id << "\n\tcall OutputInt\n";
-				else {
-					if (idT.table[lexT.table[i + 1].idxTI].idtype == IT::L)
-						out << "\tpush offset ";
-					else
-						out << "\tpush ";
-					out << idT.table[lexT.table[i + 1].idxTI].id << "\n\tcall OutputStr\n";
-				}
+				j = i + 1;
+				EXPR
+				while (lexT.table[j].idxTI == LT_TI_NULLIDX)
+					j++;
+				if (idT.table[lexT.table[j].idxTI].iddatatype == IT::INT || idT.table[lexT.table[j].idxTI].iddatatype == IT::BOOL)
+					out << "\n\tcall OutputInt\n";
+				else 
+					out << "\n\tcall OutputStr\n";
 				break;
 
 			case LEX_WRITELN:
-				if (idT.table[lexT.table[i + 1].idxTI].iddatatype == IT::INT || idT.table[lexT.table[i + 1].idxTI].iddatatype == IT::BOOL)
-					out << "\tpush " << idT.table[lexT.table[i + 1].idxTI].id << "\n\tcall OutputIntLn\n";
-				else {
-					if (idT.table[lexT.table[i + 1].idxTI].idtype == IT::L)
-						out << "\tpush offset ";
-					else
-						out << "\tpush ";
-					out << idT.table[lexT.table[i + 1].idxTI].id << "\n\tcall OutputStrLn\n";
-				}
+				j = i + 1;
+				EXPR
+					while (lexT.table[j].idxTI == LT_TI_NULLIDX)
+						j++;
+				if (idT.table[lexT.table[j].idxTI].iddatatype == IT::INT || idT.table[lexT.table[j].idxTI].iddatatype == IT::BOOL)
+					out << "\n\tcall OutputIntLn\n";
+				else
+					out << "\n\tcall OutputStrLn\n";
 				break;
 			}
 		}

@@ -43,9 +43,17 @@ main
 {
    #Проверка на 0
    let int i = 5;
+   let bool is = iszero(i);
    write i;
    write ' = 0? : ';
-   writeln iszero(i);
+   where (is) 
+   {
+      writeln 'true';
+   }
+   else
+   {
+      writeln 'false';
+   }
    writeln ' ';
 
    #Считаем до 10
@@ -53,24 +61,27 @@ main
    writeln ' ';
 
    #Демонстрация функций случайной библиотеки
+   let int r = mrand(1, 10);
    write 'Случайное число от 1 до 10: ';
-   writeln mrand(1, 10);
+   writeln r;
    writeln ' ';
    let string str1 = 'Александр';
    let string str2 = 'Артем';
    str1 = scpy(str1, str2);
    write str1;
-   write ', длина = ';
    let int len = slen(str1);
+   write ', длина = ';
    writeln len;
    writeln ' ';
+   let int pow = mpow(5, 3);
    write '5^3 = ';
-   writeln mpow(5, 3);
+   writeln pow;
    writeln ' ';
 
    #Демонстрация рекурсии и представления чисел
+   let int res = fac(0x6);
    write '6! = ';
-   writeln fac(0x6);
+   writeln res;
    writeln ' ';
    write '0xfff = ';
    writeln 0xfff;
