@@ -1,7 +1,7 @@
 #include "Div.h"
 
 void cleanup(char source[], int size, Log::LOG logfile) {
-	char Separators[] = { " ,;(){}=+-*/|" };
+	char Separators[] = { " ,;(){}=+-*/|<>~!" };
 	bool findLiteral = false;
 	int count = NULL;
 
@@ -37,7 +37,7 @@ char** divideText(char source[], int size)
 
 	bool findSeparator, findLiteral = false;
 	int j = 0;
-	char Separators[] = { " ,;(){}=+-*/|" };
+	char Separators[] = { " ,;(){}=+-*/|<>~!" };
 	for (int i = 0, k = 0; i < size - 1; i++, k++) {
 		findSeparator = false;
 		if (source[i] == '\'') findLiteral = !findLiteral;

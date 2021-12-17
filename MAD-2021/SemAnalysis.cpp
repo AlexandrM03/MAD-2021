@@ -8,6 +8,7 @@ namespace Semantic {
 		std::map<std::string, std::vector<IT::IDDATATYPE>> functions_parm;
 		std::string function_id;
 		std::vector<IT::IDDATATYPE> parms;
+		std::vector<std::string> ids;
 		for (int i = 0; i < lex.lextable.size; i++) {
 			switch (lex.lextable.table[i].lexema) {
 			case LEX_ID:
@@ -38,6 +39,10 @@ namespace Semantic {
 							}
 						}
 					}
+				}
+				else if (!std::count(ids.begin(), ids.end(), lex.idtable.table[lex.lextable.table[i].idxTI].id) && lex.idtable.table[lex.lextable.table[i].idxTI].idtype == IT::V) {
+					Log::WriteError(log, Error::geterrorin(305, lex.lextable.table[i].line, -1));
+					is_ok = false;
 				}
 				continue;
 			case LEX_EQUAL:
@@ -93,6 +98,14 @@ namespace Semantic {
 						is_ok = false;
 					}
 				}
+				continue;
+			case LEX_LET:
+				if (std::count(ids.begin(), ids.end(), lex.idtable.table[lex.lextable.table[i + 2].idxTI].id)) {
+					Log::WriteError(log, Error::geterrorin(316, lex.lextable.table[j].line, -1));
+					is_ok = false;
+				}
+				ids.push_back(lex.idtable.table[lex.lextable.table[i + 2].idxTI].id);
+				continue;
 			}
 		}
 

@@ -1,0 +1,15 @@
+main
+{
+   let int i = 0;
+   let int j = 0;
+   repeat (i < 3) 
+   {
+      repeat (j < 3)
+      {
+         writeln j;
+         j = j + 1;
+      }
+      writeln i;
+      i = i + 1;
+   }
+}

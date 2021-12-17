@@ -1,5 +1,6 @@
 #include <iostream>
 #include <Windows.h>
+#include <time.h>
 #pragma warning(disable: 4996)
 
 extern "C" {
@@ -48,6 +49,7 @@ extern "C" {
 	}
 
 	int mrand(int min, int max) {
+		srand(time(NULL));
 		return rand() % (max - min) + min;
 	}
 }
