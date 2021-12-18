@@ -85,7 +85,7 @@ main
    let int b = 6;
    let int c = 14;
 
-   writeln (a + b * c) % 7 - 5 * (a - 1);
+   writeln (a + b * c) % 7 - 5 * (a - 1) + 0x10;
 }
 
 

@@ -3,7 +3,6 @@
 #include "Parm.h"
 #include "In.h"
 #include "Log.h"
-#include "Out.h"
 #include "FST.h"
 #include "Polish.h"
 #include "LexAnalisys.h"
@@ -48,6 +47,7 @@ int wmain(int argc, wchar_t* argv[]) {
 
         Gen::Generator Gener(lex.lextable, lex.idtable, parm.out, libs);
         Log::Close(log);
+        system("startAsm.bat");
     }
     catch (Error::ERROR e) {
         Log::WriteError(log, e);

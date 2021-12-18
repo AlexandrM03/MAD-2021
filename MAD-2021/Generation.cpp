@@ -86,6 +86,7 @@ namespace Gen {
 		Const();
 		Data();
 		Code();
+		out.close();
 	}
 
 	void Generator::Head(std::stack<std::string> libs) {

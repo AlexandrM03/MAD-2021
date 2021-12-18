@@ -31,7 +31,6 @@
     <ClCompile Include="MAD-2021.cpp" />
     <ClCompile Include="LT.cpp" />
     <ClCompile Include="MFST.cpp" />
-    <ClCompile Include="Out.cpp" />
     <ClCompile Include="Parm.cpp" />
     <ClCompile Include="Polish.cpp" />
     <ClCompile Include="SemAnalysis.cpp" />
@@ -49,7 +48,6 @@
     <ClInclude Include="Log.h" />
     <ClInclude Include="LT.h" />
     <ClInclude Include="MFST.h" />
-    <ClInclude Include="Out.h" />
     <ClInclude Include="Parm.h" />
     <ClInclude Include="Polish.h" />
     <ClInclude Include="Rule.h" />

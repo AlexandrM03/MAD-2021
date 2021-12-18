@@ -45,9 +45,6 @@
     <ClCompile Include="LT.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Out.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Polish.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -65,9 +62,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Out.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Parm.h">
       <Filter>Header Files</Filter>
     </ClInclude>

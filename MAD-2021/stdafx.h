@@ -2,6 +2,7 @@
 #include <locale>
 #include <cwchar>
 #include <iomanip>
+#include <cstdlib>
 
 #include <string>
 #include <iostream>
