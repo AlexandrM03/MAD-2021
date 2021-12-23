@@ -47,17 +47,17 @@ namespace LT {
 	};
 
 	struct Entry {
-		char lexema;
-		int line;
-		int idxTI;
-		int priority;
-		operations op;
+		char lexema;	// лексема
+		int line;		// строка лесемы
+		int idxTI;		// индекс в ТИ
+		int priority;	// приоритет операции
+		operations op;	// операция
 	};
 
 	struct LexTable {
-		int maxsize;
-		int size;
-		Entry* table;
+		int maxsize;	// ёмкость ТЛ
+		int size;		// текущий размер ТЛ
+		Entry* table;	// массив строк ТЛ
 	};
 
 	LexTable Create(int size);

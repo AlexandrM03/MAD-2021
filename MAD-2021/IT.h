@@ -11,26 +11,26 @@ namespace IT {
 	enum IDTYPE {V = 1, F = 2, P = 3, L = 4, OP = 5};
 
 	struct Entry {
-		int idxFirstLE;
-		char visibility[ID_MAXSIZE];
-		char id[ID_MAXSIZE];
+		int idxFirstLE;					// индекс первой строки в ТЛ
+		char visibility[ID_MAXSIZE];	// область видимости
+		char id[ID_MAXSIZE];			// идентификатор
 
-		IDDATATYPE iddatatype;
-		IDTYPE idtype;
-		int countOfPar = 0;
+		IDDATATYPE iddatatype;			// тип данных
+		IDTYPE idtype;					// тип идентификатора
+		int countOfPar = 0;				// количество параметров
 		union {
-			int vint = 0;
+			int vint = 0;				// целочисленное значение
 			struct {
-				int len;
-				char str[TI_STR_MAXSIZE - 1];
-			} vstr;
-		} value;
+				int len;				// длина строки
+				char str[TI_STR_MAXSIZE - 1];	// символы строки
+			} vstr;						// строковое значение
+		} value;						// значение идентификатора
 	};
 
 	struct IdTable {
-		int maxsize;
-		int size;
-		Entry* table;
+		int maxsize;					// ёмкость ТИ
+		int size;						// текущий размер ТИ
+		Entry* table;					// массив строк ТИ
 	};
 
 	IdTable Create(int size);

@@ -233,5 +233,6 @@ namespace MFST {
 		}
 		mfst.savededucation();
 		mfst.printrules(stream_out);
+		FST_TRACE_n = -1;
 	}
 }

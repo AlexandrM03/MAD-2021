@@ -44,8 +44,7 @@ EXTRN OutputStrLn: proc
 	L24 SDWORD 746
 	L25 SDWORD 4
 	L26 SDWORD 14
-	L27 SDWORD 7
-	L28 SDWORD 16
+	L27 SDWORD 128
 
 .data
 	buffer BYTE 256 dup(0)
@@ -282,42 +281,18 @@ main PROC
 	pop mainb
 	push L26
 	pop mainc
-	push maina
-	push mainb
-	push mainc
-	pop eax
-	pop ebx
-	mul ebx
-	push eax
-	pop eax
-	pop ebx
-	add eax, ebx
+	push L8
+	push L16
+	pop edx
+	pop edx
+	push L16
+	push L8
+	call mpow
 	push eax
 	push L27
 	pop ebx
 	pop eax
-	cdq
-	idiv ebx
-	push edx
-	push L8
-	push maina
-	push L4
-	pop ebx
-	pop eax
 	sub eax, ebx
-	push eax
-	pop eax
-	pop ebx
-	mul ebx
-	push eax
-	pop ebx
-	pop eax
-	sub eax, ebx
-	push eax
-	push L28
-	pop eax
-	pop ebx
-	add eax, ebx
 	push eax
 
 	call OutputIntLn

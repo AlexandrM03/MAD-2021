@@ -275,6 +275,9 @@ namespace Lex {
 			}
 			else if (FST::execute(FST::FST(word[i], FST_STRLIT))) {
 				int length = strlen(word[i]);
+				if (length > 255) {
+					throw ERROR_THROW_IN(303, line, position);
+				}
 				for (int k = 0; k < length; k++)
 					word[i][k] = word[i][k + 1];
 				word[i][length - 2] = 0;

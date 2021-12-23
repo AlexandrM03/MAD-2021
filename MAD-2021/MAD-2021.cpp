@@ -47,7 +47,7 @@ int wmain(int argc, wchar_t* argv[]) {
 
         Gen::Generator Gener(lex.lextable, lex.idtable, parm.out, libs);
         Log::Close(log);
-        system("startAsm.bat");
+        system("D:/2course/MAD-2021/MAD-2021/startAsm.bat");
     }
     catch (Error::ERROR e) {
         Log::WriteError(log, e);

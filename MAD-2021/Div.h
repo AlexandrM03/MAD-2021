@@ -3,7 +3,7 @@
 #include "Log.h"
 
 #define max_word 1000
-#define size_word 20
+#define size_word 300
 
 char** divideText(char source[], int size);
 void cleanup(char source[], int size, Log::LOG logfile);
